@@ -3,6 +3,7 @@ import { createContext, useContext, useEffect } from 'react';
 import { useLocalStorage } from '../hooks';
 import type { Settings, ThemeColors } from '../types/settings';
 import { defaultThemes } from '../types/settings';
+import { getBrowserLanguage } from '../utils/language';
 
 interface SettingsContextValue {
   settings: Settings;
@@ -29,11 +30,18 @@ interface SettingsProviderProps {
 
 const STORAGE_KEY = 'app-settings';
 
+// Available languages - should match the languages in TranslationsContext
+const AVAILABLE_LANGUAGES = ['en', 'fi'];
+
 const getDefaultSettings = (): Settings => {
   // Check system preference for dark mode
   const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+  // Get browser language with fallback to English
+  const browserLanguage = getBrowserLanguage(AVAILABLE_LANGUAGES, 'en');
+
   return {
-    language: 'en',
+    language: browserLanguage,
     theme: prefersDark ? defaultThemes.dark : defaultThemes.light,
   };
 };
