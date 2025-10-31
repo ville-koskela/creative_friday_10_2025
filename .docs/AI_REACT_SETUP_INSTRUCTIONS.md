@@ -47,7 +47,7 @@ Initialize a new React project with Vite and TypeScript:
 ```bash
 npm create vite@latest project-name -- --template react-ts
 cd project-name
-npm install
+npm install --save-exact
 ```
 
 ## Step 3: Minimal Dependencies Setup
@@ -56,19 +56,19 @@ Install only essential development tools (TypeScript types are already included 
 
 ```bash
 # Code quality and formatting with Biome.js
-npm install --save-dev @biomejs/biome
+npm install --save-dev --save-exact @biomejs/biome
 
 # Git hooks for pre-commit checks
-npm install --save-dev husky
+npm install --save-dev --save-exact husky
 
 # Conventional commits validation
-npm install --save-dev @commitlint/cli @commitlint/config-conventional
+npm install --save-dev --save-exact @commitlint/cli @commitlint/config-conventional
 
 # Node.js test runner setup
-npm install --save-dev @types/node tsx
+npm install --save-dev --save-exact @types/node tsx
 ```
 
-**Note**: No additional production dependencies are installed by default. Add only what your project specifically needs.
+**Note**: No additional production dependencies are installed by default. Add only what your project specifically needs. Always use `--save-exact` flag to ensure exact version numbers without `^` or `~` prefixes.
 
 ## Step 4: Project Structure Setup
 
@@ -595,6 +595,32 @@ git commit --allow-empty -m "test: verify commit message validation"
 5. Set up deployment pipeline (Vite builds are deployment-ready)
 6. Add additional dependencies only when required
 
+## Dependency Management Best Practices
+
+### Using Exact Versions
+
+This project uses exact version numbers (without `^` or `~` prefixes) for all dependencies to ensure:
+
+- **Reproducible builds**: Everyone gets the exact same versions
+- **Predictable behavior**: No surprise breaking changes from minor/patch updates
+- **Easier debugging**: Issues can be traced to specific versions
+
+When installing new packages, always use the `--save-exact` flag:
+
+```bash
+# For production dependencies
+npm install --save-exact package-name
+
+# For development dependencies
+npm install --save-dev --save-exact package-name
+```
+
+You can also configure npm to always save exact versions:
+
+```bash
+npm config set save-exact true
+```
+
 ---
 
-**Note**: This instruction file focuses on a minimal, TypeScript-first setup with Vite and Node.js test runner. Add dependencies incrementally based on actual project requirements. Always refer to the latest React and Vite documentation for the most current information.
+**Note**: This instruction file focuses on a minimal, TypeScript-first setup with Vite and Node.js test runner. Add dependencies incrementally based on actual project requirements. Always use exact version numbers for reproducible builds. Always refer to the latest React and Vite documentation for the most current information.
