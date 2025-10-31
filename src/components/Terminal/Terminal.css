@@ -10,14 +10,17 @@
   box-sizing: border-box;
   overflow: hidden;
   cursor: text;
+  text-align: left;
 }
 
 .terminal-output {
-  flex: 1;
+  flex: 0 1 auto;
   overflow-y: auto;
   margin-bottom: 8px;
   scrollbar-width: thin;
   scrollbar-color: #424242 #1e1e1e;
+  min-height: 0;
+  text-align: left;
 }
 
 .terminal-output::-webkit-scrollbar {
@@ -39,6 +42,7 @@
   padding: 0;
   white-space: pre-wrap;
   word-wrap: break-word;
+  text-align: left;
 }
 
 .terminal-input {
@@ -74,6 +78,17 @@
   font-size: inherit;
   color: inherit;
   caret-color: #4ec9b0;
+  animation: blink-caret 0.7s step-end infinite;
+}
+
+@keyframes blink-caret {
+  0%,
+  100% {
+    caret-color: #4ec9b0;
+  }
+  50% {
+    caret-color: transparent;
+  }
 }
 
 .terminal-input::selection {
