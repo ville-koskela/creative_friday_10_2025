@@ -1,73 +1,240 @@
 # React + TypeScript + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A minimal React application setup using Vite, TypeScript, and Biome for code quality.
 
-Currently, two official plugins are available:
+## Tech Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **React 19** - UI library
+- **TypeScript 5.9** - Type safety
+- **Vite 7** - Build tool and dev server
+- **Biome** - Linting and formatting (replaces ESLint and Prettier)
+- **Node.js Test Runner** - Built-in testing with `@testing-library/react`
+- **Husky** - Git hooks for pre-commit checks
+- **Commitlint** - Conventional commit message validation
 
-## React Compiler
+## Prerequisites
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Node.js 24.9.0 (managed via asdf)
+- npm (comes with Node.js)
 
-## Expanding the ESLint configuration
+### asdf Setup
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+```bash
+# Install Node.js plugin for asdf
+asdf plugin add nodejs https://github.com/asdf-vm/asdf-nodejs.git
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+# Install Node.js version from .tool-versions
+asdf install
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+# Verify installation
+asdf current nodejs
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Getting Started
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+```bash
+# Install dependencies (uses exact versions)
+npm install
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+# Start development server
+npm run dev
+
+# Run tests
+npm test
+
+# Run tests in watch mode
+npm run test:watch
+
+# Type checking
+npm run type-check
+
+# Build for production
+npm run build
+
+# Preview production build
+npm run preview
 ```
+
+## Code Quality Commands
+
+### Linting
+
+```bash
+# Check for linting issues
+npm run lint
+
+# Fix linting issues automatically
+npm run lint:fix
+```
+
+### Formatting
+
+```bash
+# Format all files
+npm run format
+```
+
+### All-in-One Check
+
+```bash
+# Run all checks (lint + format)
+npm run check
+
+# Fix all issues (lint + format)
+npm run check:fix
+```
+
+## Testing
+
+This project uses Node.js's built-in test runner with React Testing Library:
+
+```bash
+# Run all tests
+npm test
+
+# Run tests in watch mode
+npm run test:watch
+```
+
+### Test Structure
+
+Tests are located in `src/tests/` and use:
+- `node:test` - Built-in test runner
+- `node:assert` (strict mode) - Assertions
+- `@testing-library/react` - React component testing
+- `jsdom` - DOM environment for Node.js
+
+Example test:
+
+```typescript
+import { strict as assert } from 'node:assert';
+import { beforeEach, describe, test } from 'node:test';
+import { render } from '@testing-library/react';
+import { createDOM } from './test-utils/create-dom';
+import Component from '../components/Component';
+
+describe('Component', () => {
+  beforeEach(() => {
+    createDOM();
+  });
+
+  test('renders correctly', () => {
+    const { getByText } = render(<Component />);
+    const element = getByText('Expected Text');
+    assert.equal(element.textContent, 'Expected Text');
+  });
+});
+```
+
+## Git Workflow
+
+### Conventional Commits
+
+All commits must follow the [Conventional Commits](https://www.conventionalcommits.org/) format:
+
+```
+<type>(<optional scope>): <subject>
+
+<optional body>
+
+<optional footer>
+```
+
+**Valid types:**
+- `feat` - New feature
+- `fix` - Bug fix
+- `docs` - Documentation changes
+- `style` - Code style/formatting changes
+- `refactor` - Code refactoring
+- `perf` - Performance improvements
+- `test` - Adding or updating tests
+- `build` - Build system changes
+- `ci` - CI configuration changes
+- `chore` - Other maintenance tasks
+- `revert` - Revert a previous commit
+
+**Examples:**
+
+```bash
+git commit -m "feat: add user authentication"
+git commit -m "fix: resolve navigation overflow issue"
+git commit -m "docs: update README with testing instructions"
+git commit -m "test: add unit tests for Button component"
+```
+
+### Git Hooks
+
+- **pre-commit**: Runs `npm run check` (Biome linting + formatting)
+- **commit-msg**: Validates conventional commit format
+
+To bypass hooks (use sparingly):
+
+```bash
+git commit --no-verify -m "emergency fix"
+```
+
+## Dependency Management
+
+This project uses **exact version numbers** (no `^` or `~` prefixes) for reproducible builds.
+
+When installing new packages, always use `--save-exact`:
+
+```bash
+# Production dependency
+npm install --save-exact package-name
+
+# Development dependency
+npm install --save-dev --save-exact package-name
+```
+
+Or configure npm globally:
+
+```bash
+npm config set save-exact true
+```
+
+## Project Structure
+
+```
+.
+├── src/
+│   ├── components/      # React components
+│   ├── types/           # TypeScript type definitions
+│   ├── utils/           # Utility functions
+│   ├── tests/           # Test files
+│   │   └── test-utils/  # Testing utilities (e.g., createDOM)
+│   ├── App.tsx          # Main App component
+│   └── main.tsx         # Application entry point
+├── public/              # Static assets
+├── .husky/              # Git hooks
+├── .vscode/             # VS Code settings
+├── biome.json           # Biome configuration
+├── commitlint.config.js # Commit message linting
+├── tsconfig.json        # TypeScript configuration
+├── vite.config.ts       # Vite configuration
+└── package.json         # Dependencies and scripts
+```
+
+## VS Code Integration
+
+The project includes `.vscode/settings.json` for automatic code formatting and import organization on save using Biome.
+
+**Recommended VS Code Extension:**
+- [Biome](https://marketplace.visualstudio.com/items?itemName=biomejs.biome)
+
+## Configuration Files
+
+- **biome.json** - Code linting and formatting rules
+- **tsconfig.json** - TypeScript compiler options
+- **vite.config.ts** - Vite build configuration
+- **commitlint.config.js** - Commit message validation rules
+- **.tool-versions** - Node.js version for asdf
+
+## Additional Documentation
+
+For detailed setup instructions for AI agents, see:
+- `.docs/AI_REACT_SETUP_INSTRUCTIONS.md`
+
+## License
+
+Private project - not licensed for public use.
