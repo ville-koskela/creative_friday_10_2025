@@ -32,7 +32,7 @@ mkdir -p src/{components,types,utils,tests}
 
 ```bash
 # Development only
-npm install --save-dev @biomejs/biome @types/node tsx
+npm install --save-dev @biomejs/biome @types/node tsx husky @commitlint/cli @commitlint/config-conventional
 ```
 
 ## ⚙️ Quick Config Files
@@ -53,6 +53,30 @@ npm install --save-dev @biomejs/biome @types/node tsx
 }
 ```
 
+### commitlint.config.js
+
+```javascript
+export default {
+  extends: ['@commitlint/config-conventional'],
+};
+```
+
+## 🔧 Git Hooks Setup
+
+```bash
+# Initialize Husky
+npx husky init
+
+# Pre-commit: Run Biome checks
+echo 'npm run check' > .husky/pre-commit
+
+# Commit-msg: Validate conventional commits
+echo 'npx --no -- commitlint --edit $1' > .husky/commit-msg
+
+# Make executable
+chmod +x .husky/pre-commit .husky/commit-msg
+```
+
 ## 🔍 Verification Commands
 
 ```bash
@@ -71,13 +95,26 @@ npm run build      # Should build successfully
 - [ ] `.tool-versions` file created
 - [ ] Vite project initialized with TypeScript
 - [ ] Minimal directory structure created
-- [ ] Essential dev dependencies installed (Biome.js)
+- [ ] Essential dev dependencies installed (Biome.js, Husky, Commitlint)
 - [ ] Biome configuration added
+- [ ] Commitlint configuration added
 - [ ] TypeScript configuration verified
 - [ ] Node.js test runner setup
+- [ ] Husky initialized with pre-commit and commit-msg hooks
 - [ ] Git repository initialized
 - [ ] Environment variables set (VITE\_ prefix)
 - [ ] All verification commands pass
+- [ ] Git hooks tested and working
+
+## 💡 Conventional Commits
+
+```bash
+# Valid commit examples
+git commit -m "feat: add user authentication"
+git commit -m "fix: resolve navigation bug"
+git commit -m "docs: update README"
+git commit -m "refactor: simplify data fetching"
+```
 
 ---
 

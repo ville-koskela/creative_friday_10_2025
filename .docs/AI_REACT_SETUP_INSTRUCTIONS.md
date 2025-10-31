@@ -58,6 +58,12 @@ Install only essential development tools (TypeScript types are already included 
 # Code quality and formatting with Biome.js
 npm install --save-dev @biomejs/biome
 
+# Git hooks for pre-commit checks
+npm install --save-dev husky
+
+# Conventional commits validation
+npm install --save-dev @commitlint/cli @commitlint/config-conventional
+
 # Node.js test runner setup
 npm install --save-dev @types/node tsx
 ```
@@ -184,6 +190,56 @@ export default {
 };
 ```
 
+### 4. Commitlint Configuration (commitlint.config.js)
+
+Create commitlint configuration for conventional commits:
+
+```javascript
+// commitlint.config.js
+export default {
+  extends: ['@commitlint/config-conventional'],
+  rules: {
+    'type-enum': [
+      2,
+      'always',
+      [
+        'feat', // New feature
+        'fix', // Bug fix
+        'docs', // Documentation only changes
+        'style', // Code style changes (formatting, semicolons, etc.)
+        'refactor', // Code refactoring
+        'perf', // Performance improvements
+        'test', // Adding or updating tests
+        'build', // Build system or external dependencies
+        'ci', // CI configuration changes
+        'chore', // Other changes that don't modify src or test files
+        'revert', // Revert a previous commit
+      ],
+    ],
+    'subject-case': [0], // Allow any case for subject
+  },
+};
+```
+
+### 5. Setup Git Hooks with Husky
+
+Initialize Husky and create pre-commit and commit-msg hooks:
+
+```bash
+# Initialize Husky
+npx husky init
+
+# Create pre-commit hook to run Biome checks
+echo 'npm run check' > .husky/pre-commit
+
+# Create commit-msg hook to validate conventional commits
+echo 'npx --no -- commitlint --edit $1' > .husky/commit-msg
+
+# Make hooks executable
+chmod +x .husky/pre-commit
+chmod +x .husky/commit-msg
+```
+
 ## Step 6: Base Component Templates
 
 ### 1. Update App Component (src/App.tsx)
@@ -307,10 +363,13 @@ Update package.json scripts section (Vite already includes dev, build, preview):
     "format": "biome format --write .",
     "check": "biome check .",
     "check:fix": "biome check --write .",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "prepare": "husky"
   }
 }
 ```
+
+**Note**: The `prepare` script ensures Husky hooks are installed automatically when someone runs `npm install`.
 
 ## Step 9: Git Repository Setup
 
@@ -321,8 +380,8 @@ git init
 # Add all files
 git add .
 
-# Initial commit
-git commit -m "Initial commit: React app setup with base structure"
+# Initial commit (using conventional commit format)
+git commit -m "chore: initial project setup with vite, typescript, and biome"
 
 # Add remote origin (replace with your repository URL)
 git remote add origin https://github.com/username/repository-name.git
@@ -330,6 +389,42 @@ git remote add origin https://github.com/username/repository-name.git
 # Push to remote
 git push -u origin main
 ```
+
+### Conventional Commit Format
+
+All commits must follow the conventional commit format. The pre-commit hook will validate this:
+
+```
+<type>(<optional scope>): <subject>
+
+<optional body>
+
+<optional footer>
+```
+
+**Examples:**
+
+```bash
+git commit -m "feat: add user authentication component"
+git commit -m "fix: resolve navigation menu overflow issue"
+git commit -m "docs: update README with installation steps"
+git commit -m "refactor: simplify data fetching logic"
+git commit -m "test: add unit tests for Button component"
+```
+
+**Valid types:**
+
+- `feat` - New feature
+- `fix` - Bug fix
+- `docs` - Documentation changes
+- `style` - Code style/formatting changes
+- `refactor` - Code refactoring
+- `perf` - Performance improvements
+- `test` - Adding or updating tests
+- `build` - Build system changes
+- `ci` - CI configuration changes
+- `chore` - Other maintenance tasks
+- `revert` - Revert a previous commit
 
 ## Step 10: Development Best Practices
 
@@ -364,6 +459,25 @@ const Button: React.FC<ButtonProps> = ({
 1. **Simple Unit Tests**: Use Node.js built-in test runner
 2. **No Additional Dependencies**: Leverage native testing capabilities
 3. **Test Organization**: Keep tests in `src/tests/` directory
+
+### Git Workflow Best Practices
+
+1. **Pre-commit Checks**: Husky runs `npm run check` before every commit
+
+   - Lints all code with Biome
+   - Formats all code with Biome
+   - Fails commit if issues are found
+
+2. **Commit Message Validation**: Commitlint validates conventional commit format
+
+   - Must use valid type (feat, fix, docs, etc.)
+   - Must have a subject
+   - Example: `feat: add new feature`
+
+3. **Bypass Hooks (Use Sparingly)**:
+   ```bash
+   git commit --no-verify -m "emergency fix"
+   ```
 
 ### Performance Considerations
 
@@ -427,11 +541,30 @@ After completing the setup, verify:
 - [ ] Biome checks pass (`npm run check`)
 - [ ] Build completes successfully (`npm run build`)
 - [ ] Essential directories are created (components, types, utils, tests)
-- [ ] Configuration files are in place (Biome, TypeScript)
+- [ ] Configuration files are in place (Biome, TypeScript, Commitlint)
 - [ ] `.tool-versions` file created with Node.js 24.9.0
 - [ ] asdf correctly manages Node.js version
+- [ ] Husky hooks are installed and working (.husky/pre-commit, .husky/commit-msg)
+- [ ] Pre-commit hook runs Biome checks
+- [ ] Commit-msg hook validates conventional commits
 - [ ] Git repository is initialized and committed
 - [ ] Environment variables are configured (using VITE\_ prefix)
+
+### Test Git Hooks
+
+Verify hooks are working:
+
+```bash
+# Test pre-commit hook (should run Biome checks)
+git add .
+git commit -m "test: verify pre-commit hook"
+
+# Test commit-msg hook with invalid format (should fail)
+git commit --allow-empty -m "invalid commit message"
+
+# Test commit-msg hook with valid format (should succeed)
+git commit --allow-empty -m "test: verify commit message validation"
+```
 
 ## Troubleshooting Common Issues
 
