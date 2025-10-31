@@ -177,22 +177,14 @@ export const FloatingWindow: FC<FloatingWindowProps> = ({
 
       <div className="floating-window-content">{children}</div>
 
-      {/* Resize handles */}
-      {/* biome-ignore lint/a11y/useSemanticElements: Resize handles need to be divs for proper positioning and cursor styling */}
-      <div
-        className="resize-handle resize-n"
-        onMouseDown={(e) => handleMouseDownResize(e, 'n')}
-        role="button"
-        tabIndex={-1}
-        aria-label="Resize north"
-      />
+      {/* Resize handles - bottom, right, and bottom-right corner only */}
       {/* biome-ignore lint/a11y/useSemanticElements: Resize handles need to be divs for proper positioning and cursor styling */}
       <div
         className="resize-handle resize-s"
         onMouseDown={(e) => handleMouseDownResize(e, 's')}
         role="button"
         tabIndex={-1}
-        aria-label="Resize south"
+        aria-label="Resize bottom"
       />
       {/* biome-ignore lint/a11y/useSemanticElements: Resize handles need to be divs for proper positioning and cursor styling */}
       <div
@@ -200,31 +192,7 @@ export const FloatingWindow: FC<FloatingWindowProps> = ({
         onMouseDown={(e) => handleMouseDownResize(e, 'e')}
         role="button"
         tabIndex={-1}
-        aria-label="Resize east"
-      />
-      {/* biome-ignore lint/a11y/useSemanticElements: Resize handles need to be divs for proper positioning and cursor styling */}
-      <div
-        className="resize-handle resize-w"
-        onMouseDown={(e) => handleMouseDownResize(e, 'w')}
-        role="button"
-        tabIndex={-1}
-        aria-label="Resize west"
-      />
-      {/* biome-ignore lint/a11y/useSemanticElements: Resize handles need to be divs for proper positioning and cursor styling */}
-      <div
-        className="resize-handle resize-ne"
-        onMouseDown={(e) => handleMouseDownResize(e, 'ne')}
-        role="button"
-        tabIndex={-1}
-        aria-label="Resize northeast"
-      />
-      {/* biome-ignore lint/a11y/useSemanticElements: Resize handles need to be divs for proper positioning and cursor styling */}
-      <div
-        className="resize-handle resize-nw"
-        onMouseDown={(e) => handleMouseDownResize(e, 'nw')}
-        role="button"
-        tabIndex={-1}
-        aria-label="Resize northwest"
+        aria-label="Resize right"
       />
       {/* biome-ignore lint/a11y/useSemanticElements: Resize handles need to be divs for proper positioning and cursor styling */}
       <div
@@ -232,15 +200,7 @@ export const FloatingWindow: FC<FloatingWindowProps> = ({
         onMouseDown={(e) => handleMouseDownResize(e, 'se')}
         role="button"
         tabIndex={-1}
-        aria-label="Resize southeast"
-      />
-      {/* biome-ignore lint/a11y/useSemanticElements: Resize handles need to be divs for proper positioning and cursor styling */}
-      <div
-        className="resize-handle resize-sw"
-        onMouseDown={(e) => handleMouseDownResize(e, 'sw')}
-        role="button"
-        tabIndex={-1}
-        aria-label="Resize southwest"
+        aria-label="Resize bottom-right"
       />
     </div>
   );
