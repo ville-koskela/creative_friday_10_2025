@@ -496,7 +496,7 @@ describe('WindowManager', () => {
     for (const window of windows) {
       const zIndex = window.style.zIndex;
       assert.ok(zIndex);
-      assert.ok(Number.parseInt(zIndex) > 0);
+      assert.ok(Number.parseInt(zIndex, 10) > 0);
     }
   });
 
