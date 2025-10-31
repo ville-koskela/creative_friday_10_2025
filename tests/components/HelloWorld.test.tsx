@@ -1,8 +1,8 @@
 import { strict as assert } from 'node:assert';
 import { beforeEach, describe, test } from 'node:test';
 import { render } from '@testing-library/react';
-import { HelloWorld } from '../components/HelloWorld';
-import { createDOM } from './test-utils/create-dom';
+import { HelloWorld } from '../../src/components/HelloWorld';
+import { createDOM } from '../test-utils/create-dom';
 
 describe('HelloWorld', () => {
   // Set up DOM environment before tests

@@ -1,8 +1,8 @@
 import { strict as assert } from 'node:assert';
 import { beforeEach, describe, test } from 'node:test';
 import { render } from '@testing-library/react';
-import { FloatingWindow } from '../components/FloatingWindow';
-import { createDOM } from './test-utils/create-dom';
+import { FloatingWindow } from '../../../src/components/FloatingWindow';
+import { createDOM } from '../../test-utils/create-dom';
 
 describe('FloatingWindow', () => {
   // Always set up DOM environment before tests

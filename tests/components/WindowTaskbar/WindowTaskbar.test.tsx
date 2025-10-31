@@ -1,9 +1,9 @@
 import { strict as assert } from 'node:assert';
 import { beforeEach, describe, test } from 'node:test';
 import { fireEvent, render } from '@testing-library/react';
-import { WindowTaskbar } from '../components/WindowTaskbar';
-import { WindowProvider } from '../contexts';
-import { createDOM } from './test-utils/create-dom';
+import { WindowTaskbar } from '../../../src/components/WindowTaskbar';
+import { WindowProvider } from '../../../src/contexts';
+import { createDOM } from '../../test-utils/create-dom';
 
 describe('WindowTaskbar', () => {
   beforeEach(() => {

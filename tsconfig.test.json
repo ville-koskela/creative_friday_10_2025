@@ -1,11 +1,10 @@
 {
   "compilerOptions": {
-    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
     "target": "ES2022",
     "useDefineForClassFields": true,
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "module": "ESNext",
-    "types": ["vite/client"],
+    "types": ["node", "@types/jsdom"],
     "skipLibCheck": true,
 
     /* Bundler mode */
@@ -22,8 +21,7 @@
     "noUnusedParameters": true,
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true,
-    "composite": true
+    "noUncheckedSideEffectImports": false
   },
-  "include": ["src"]
+  "include": ["tests/**/*", "src/**/*"]
 }
