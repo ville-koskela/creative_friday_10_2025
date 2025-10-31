@@ -1,6 +1,7 @@
 import type { FC } from 'react';
 import { useRef, useState } from 'react';
 import { useSettings } from '../../contexts/SettingsContext';
+import translations from '../../data/translations-en.json';
 import type { ThemeColors } from '../../types/settings';
 import { availableLanguages, defaultThemes } from '../../types/settings';
 import './Settings.css';
@@ -49,26 +50,28 @@ export const Settings: FC = () => {
 
   const currentPreset = getCurrentPresetName();
 
+  const t = translations.settings;
+
   const colorFields: { key: keyof ThemeColors; label: string }[] = [
-    { key: 'primary', label: 'Primary Color' },
-    { key: 'secondary', label: 'Secondary Color' },
-    { key: 'background', label: 'Background' },
-    { key: 'surface', label: 'Surface' },
-    { key: 'text', label: 'Text' },
-    { key: 'textSecondary', label: 'Secondary Text' },
-    { key: 'border', label: 'Border' },
-    { key: 'success', label: 'Success' },
-    { key: 'warning', label: 'Warning' },
-    { key: 'error', label: 'Error' },
+    { key: 'primary', label: t.customTheme.colors.primary },
+    { key: 'secondary', label: t.customTheme.colors.secondary },
+    { key: 'background', label: t.customTheme.colors.background },
+    { key: 'surface', label: t.customTheme.colors.surface },
+    { key: 'text', label: t.customTheme.colors.text },
+    { key: 'textSecondary', label: t.customTheme.colors.textSecondary },
+    { key: 'border', label: t.customTheme.colors.border },
+    { key: 'success', label: t.customTheme.colors.success },
+    { key: 'warning', label: t.customTheme.colors.warning },
+    { key: 'error', label: t.customTheme.colors.error },
   ];
 
   return (
     <div className="settings-container">
       <div className="settings-section">
-        <h2 className="settings-section-title">Language Settings</h2>
+        <h2 className="settings-section-title">{t.languageSettings.title}</h2>
         <div className="settings-field">
           <label htmlFor="language-select" className="settings-label">
-            Language
+            {t.languageSettings.label}
           </label>
           <select
             id="language-select"
@@ -83,13 +86,13 @@ export const Settings: FC = () => {
             ))}
           </select>
           <p className="settings-description">
-            Language support is coming soon. Currently for display only.
+            {t.languageSettings.description}
           </p>
         </div>
       </div>
 
       <div className="settings-section">
-        <h2 className="settings-section-title">Theme Presets</h2>
+        <h2 className="settings-section-title">{t.themePresets.title}</h2>
         <div className="theme-presets">
           {Object.keys(defaultThemes).map((themeName) => (
             <button
@@ -98,14 +101,15 @@ export const Settings: FC = () => {
               className={`theme-preset-button ${currentPreset === themeName ? 'active' : ''}`}
               onClick={() => handlePresetTheme(themeName)}
             >
-              {themeName.charAt(0).toUpperCase() + themeName.slice(1)}
+              {t.themePresets[themeName as keyof typeof t.themePresets] ||
+                themeName.charAt(0).toUpperCase() + themeName.slice(1)}
             </button>
           ))}
         </div>
       </div>
 
       <div className="settings-section">
-        <h2 className="settings-section-title">Custom Theme Colors</h2>
+        <h2 className="settings-section-title">{t.customTheme.title}</h2>
         <div className="theme-colors">
           {colorFields.map(({ key, label }) => (
             <div key={key} className="color-field">
@@ -118,7 +122,10 @@ export const Settings: FC = () => {
                   className="color-preview"
                   style={{ backgroundColor: customTheme[key] }}
                   onClick={() => colorPickerRefs.current[key]?.click()}
-                  aria-label={`Pick ${label} color`}
+                  aria-label={t.customTheme.aria.pickColor.replace(
+                    '{label}',
+                    label
+                  )}
                 />
                 <input
                   type="text"
@@ -140,17 +147,17 @@ export const Settings: FC = () => {
                       : '#000000'
                   }
                   onChange={(e) => handleColorChange(key, e.target.value)}
-                  aria-label={`${label} color picker`}
+                  aria-label={t.customTheme.aria.colorPicker.replace(
+                    '{label}',
+                    label
+                  )}
                 />
               </div>
             </div>
           ))}
         </div>
 
-        <div className="settings-info">
-          💡 Tip: Click the color preview to use the color picker, or type
-          hex/rgb values directly.
-        </div>
+        <div className="settings-info">{t.customTheme.tip}</div>
 
         <div className="settings-actions">
           <button
@@ -158,14 +165,14 @@ export const Settings: FC = () => {
             className="settings-button settings-button-primary"
             onClick={handleApplyCustomTheme}
           >
-            Apply Custom Theme
+            {t.customTheme.actions.apply}
           </button>
           <button
             type="button"
             className="settings-button settings-button-secondary"
             onClick={handleResetToDefaults}
           >
-            Reset to Defaults
+            {t.customTheme.actions.reset}
           </button>
         </div>
       </div>

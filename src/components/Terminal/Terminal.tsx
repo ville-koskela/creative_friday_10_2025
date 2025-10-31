@@ -1,6 +1,7 @@
 import type { FC, KeyboardEvent } from 'react';
 import { useEffect, useRef, useState } from 'react';
 import terminalCommands from '../../data/terminal-commands.json';
+import translations from '../../data/translations-en.json';
 import './Terminal.css';
 
 interface TerminalLine {
@@ -16,9 +17,12 @@ interface Command {
 }
 
 export const Terminal: FC = () => {
+  const t = translations.terminal;
+  const tCommands = translations.terminalCommands;
+
   const [history, setHistory] = useState<TerminalLine[]>([
-    { type: 'output', content: 'Terminal Emulator v1.0' },
-    { type: 'output', content: 'Type "help" for available commands.' },
+    { type: 'output', content: t.welcome.version },
+    { type: 'output', content: t.welcome.help },
     { type: 'output', content: '' },
   ]);
   const [input, setInput] = useState('');
@@ -53,13 +57,15 @@ export const Terminal: FC = () => {
 
     if (commandName === 'help') {
       const helpText = [
-        'Available commands:',
+        t.help.title,
         '',
-        ...commands.map(
-          (cmd) => `  ${cmd.name.padEnd(10)} - ${cmd.description}`
-        ),
-        '  help      - Show this help message',
-        '  clear     - Clear the terminal',
+        ...commands.map((cmd) => {
+          const cmdKey = cmd.name as keyof typeof tCommands;
+          const description = tCommands[cmdKey]?.description || cmd.description;
+          return `  ${cmd.name.padEnd(10)} - ${description}`;
+        }),
+        `  ${t.help.helpCommand}`,
+        `  ${t.help.clearCommand}`,
       ];
       setHistory((prev) => [
         ...prev,
@@ -80,7 +86,7 @@ export const Terminal: FC = () => {
         ...prev,
         {
           type: 'error',
-          content: `Command not found: ${commandName}. Type "help" for available commands.`,
+          content: t.errors.commandNotFound.replace('{command}', commandName),
         },
         { type: 'output', content: '' },
       ]);
@@ -101,7 +107,7 @@ export const Terminal: FC = () => {
       case 'date':
         return new Date().toLocaleString();
       default:
-        return 'Command execution not implemented';
+        return t.errors.notImplemented;
     }
   };
 
@@ -163,7 +169,7 @@ export const Terminal: FC = () => {
         <div ref={terminalEndRef} />
       </div>
       <div className="terminal-input-line">
-        <span className="terminal-prompt">$</span>
+        <span className="terminal-prompt">{t.prompt}</span>
         <input
           ref={inputRef}
           type="text"

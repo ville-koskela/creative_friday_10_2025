@@ -1,10 +1,14 @@
 import { type FC, useState } from 'react';
 import { useWindows } from '../../contexts';
+import translations from '../../data/translations-en.json';
 import { Settings } from '../Settings';
 import { Terminal } from '../Terminal';
 import './WindowTaskbar.css';
 
 export const WindowTaskbar: FC = () => {
+  const t = translations.taskbar;
+  const tApps = translations.taskbar.applications;
+
   const {
     windows,
     bringToFront,
@@ -19,7 +23,7 @@ export const WindowTaskbar: FC = () => {
     const terminalId = `terminal-${Date.now()}`;
     createWindow({
       id: terminalId,
-      title: 'Terminal',
+      title: tApps.terminal,
       content: <Terminal />,
       initialX: 150 + windows.length * 30,
       initialY: 150 + windows.length * 30,
@@ -35,7 +39,7 @@ export const WindowTaskbar: FC = () => {
     const settingsId = 'settings';
     createWindow({
       id: settingsId,
-      title: 'Settings',
+      title: tApps.settings,
       content: <Settings />,
       initialX: 200 + windows.length * 30,
       initialY: 100 + windows.length * 30,
@@ -54,10 +58,10 @@ export const WindowTaskbar: FC = () => {
           type="button"
           className={`start-menu-button ${isStartMenuOpen ? 'active' : ''}`}
           onClick={() => setIsStartMenuOpen(!isStartMenuOpen)}
-          title="Start Menu"
+          title={t.start.title}
         >
           <span className="start-icon">⊞</span>
-          <span className="start-text">Start</span>
+          <span className="start-text">{t.start.text}</span>
         </button>
         {isStartMenuOpen && (
           <>
@@ -70,10 +74,10 @@ export const WindowTaskbar: FC = () => {
                   setIsStartMenuOpen(false);
                 }
               }}
-              aria-label="Close start menu"
+              aria-label={t.start.closeMenu}
             />
             <div className="start-menu">
-              <div className="start-menu-header">Applications</div>
+              <div className="start-menu-header">{t.start.header}</div>
               <div className="start-menu-items">
                 <button
                   type="button"
@@ -81,7 +85,7 @@ export const WindowTaskbar: FC = () => {
                   onClick={handleCreateTerminal}
                 >
                   <span className="menu-item-icon">▶</span>
-                  <span className="menu-item-text">Terminal</span>
+                  <span className="menu-item-text">{tApps.terminal}</span>
                 </button>
                 <button
                   type="button"
@@ -89,7 +93,7 @@ export const WindowTaskbar: FC = () => {
                   onClick={handleCreateSettings}
                 >
                   <span className="menu-item-icon">⚙</span>
-                  <span className="menu-item-text">Settings</span>
+                  <span className="menu-item-text">{tApps.settings}</span>
                 </button>
               </div>
             </div>
@@ -99,7 +103,7 @@ export const WindowTaskbar: FC = () => {
       <div className="taskbar-separator" />
       <div className="taskbar-items">
         {windows.length === 0 ? (
-          <div className="taskbar-empty">No open windows</div>
+          <div className="taskbar-empty">{t.noWindows}</div>
         ) : (
           windows.map((window) => (
             <div key={window.id} className="taskbar-item">
@@ -127,7 +131,9 @@ export const WindowTaskbar: FC = () => {
                     minimizeWindow(window.id);
                   }
                 }}
-                title={window.isMinimized ? 'Restore' : 'Minimize'}
+                title={
+                  window.isMinimized ? t.window.restore : t.window.minimize
+                }
               >
                 {window.isMinimized ? '▢' : '_'}
               </button>
@@ -135,7 +141,7 @@ export const WindowTaskbar: FC = () => {
                 type="button"
                 className="taskbar-close"
                 onClick={() => closeWindow(window.id)}
-                title="Close"
+                title={t.window.close}
               >
                 ×
               </button>
