@@ -72,7 +72,7 @@ describe('WindowTaskbar', () => {
     assert.ok(header);
   });
 
-  test('start menu contains "Create new window" menu item', () => {
+  test('start menu contains "Terminal" menu item', () => {
     const { getByTitle, getByText } = render(
       <WindowProvider>
         <WindowTaskbar />
@@ -82,7 +82,7 @@ describe('WindowTaskbar', () => {
     const startButton = getByTitle('Start Menu');
     fireEvent.click(startButton);
 
-    const menuItem = getByText('Create new window');
+    const menuItem = getByText('Terminal');
     assert.ok(menuItem);
   });
 
@@ -147,7 +147,7 @@ describe('WindowTaskbar', () => {
     assert.ok(!startButton.className.includes('active'));
   });
 
-  test('start menu closes when "Create new window" is clicked', () => {
+  test('start menu closes when "Terminal" is clicked', () => {
     const { getByTitle, getByText, container } = render(
       <WindowProvider>
         <WindowTaskbar />
@@ -157,7 +157,7 @@ describe('WindowTaskbar', () => {
     const startButton = getByTitle('Start Menu');
     fireEvent.click(startButton);
 
-    const createButton = getByText('Create new window');
+    const createButton = getByText('Terminal');
     fireEvent.click(createButton);
 
     const startMenu = container.querySelector('.start-menu');
@@ -222,8 +222,8 @@ describe('WindowTaskbar', () => {
 
     assert.ok(icon);
     assert.ok(text);
-    assert.equal(icon?.textContent, '➕');
-    assert.equal(text?.textContent, 'Create new window');
+    assert.equal(icon?.textContent, '▶');
+    assert.equal(text?.textContent, 'Terminal');
   });
 
   test('all buttons have proper type attribute', () => {
