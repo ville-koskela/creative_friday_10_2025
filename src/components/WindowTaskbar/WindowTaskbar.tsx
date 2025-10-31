@@ -1,5 +1,6 @@
 import { type FC, useState } from 'react';
 import { useWindows } from '../../contexts';
+import { Settings } from '../Settings';
 import { Terminal } from '../Terminal';
 import './WindowTaskbar.css';
 
@@ -26,6 +27,22 @@ export const WindowTaskbar: FC = () => {
       initialHeight: 400,
       minWidth: 400,
       minHeight: 300,
+    });
+    setIsStartMenuOpen(false);
+  };
+
+  const handleCreateSettings = () => {
+    const settingsId = 'settings';
+    createWindow({
+      id: settingsId,
+      title: 'Settings',
+      content: <Settings />,
+      initialX: 200 + windows.length * 30,
+      initialY: 100 + windows.length * 30,
+      initialWidth: 700,
+      initialHeight: 600,
+      minWidth: 500,
+      minHeight: 400,
     });
     setIsStartMenuOpen(false);
   };
@@ -65,6 +82,14 @@ export const WindowTaskbar: FC = () => {
                 >
                   <span className="menu-item-icon">▶</span>
                   <span className="menu-item-text">Terminal</span>
+                </button>
+                <button
+                  type="button"
+                  className="start-menu-item"
+                  onClick={handleCreateSettings}
+                >
+                  <span className="menu-item-icon">⚙</span>
+                  <span className="menu-item-text">Settings</span>
                 </button>
               </div>
             </div>
