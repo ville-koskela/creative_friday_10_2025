@@ -1,9 +1,9 @@
 import { strict as assert } from 'node:assert';
 import { beforeEach, describe, test } from 'node:test';
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent } from '@testing-library/react';
 import { Settings } from '../../../src/components/Settings/Settings';
-import { SettingsProvider } from '../../../src/contexts/SettingsContext';
 import { createDOM } from '../../test-utils/create-dom';
+import { renderWithProviders } from '../../test-utils/render-with-providers';
 
 describe('Settings Component', () => {
   beforeEach(() => {
@@ -27,30 +27,24 @@ describe('Settings Component', () => {
   });
 
   test('renders without crashing', () => {
-    const { getByText } = render(
-      <SettingsProvider>
-        <Settings />
-      </SettingsProvider>
+    const { getByText } = renderWithProviders(
+      <Settings />
     );
     assert.ok(getByText('Language Settings'));
     assert.ok(getByText('Theme Presets'));
   });
 
   test('displays language selector', () => {
-    const { getByLabelText } = render(
-      <SettingsProvider>
-        <Settings />
-      </SettingsProvider>
+    const { getByLabelText } = renderWithProviders(
+      <Settings />
     );
     const languageSelect = getByLabelText('Language');
     assert.ok(languageSelect);
   });
 
   test('displays theme preset buttons', () => {
-    const { getByText } = render(
-      <SettingsProvider>
-        <Settings />
-      </SettingsProvider>
+    const { getByText } = renderWithProviders(
+      <Settings />
     );
     assert.ok(getByText('Light'));
     assert.ok(getByText('Dark'));
@@ -60,10 +54,8 @@ describe('Settings Component', () => {
   });
 
   test('changes language when selected', () => {
-    const { getByLabelText } = render(
-      <SettingsProvider>
-        <Settings />
-      </SettingsProvider>
+    const { getByLabelText } = renderWithProviders(
+      <Settings />
     );
     const languageSelect = getByLabelText('Language') as HTMLSelectElement;
     fireEvent.change(languageSelect, { target: { value: 'fi' } });
@@ -71,10 +63,8 @@ describe('Settings Component', () => {
   });
 
   test('displays custom theme color fields', () => {
-    const { getByText } = render(
-      <SettingsProvider>
-        <Settings />
-      </SettingsProvider>
+    const { getByText } = renderWithProviders(
+      <Settings />
     );
     assert.ok(getByText('Primary Color'));
     assert.ok(getByText('Secondary Color'));
@@ -82,10 +72,8 @@ describe('Settings Component', () => {
   });
 
   test('displays action buttons', () => {
-    const { getByText } = render(
-      <SettingsProvider>
-        <Settings />
-      </SettingsProvider>
+    const { getByText } = renderWithProviders(
+      <Settings />
     );
     assert.ok(getByText('Apply Custom Theme'));
     assert.ok(getByText('Reset to Defaults'));

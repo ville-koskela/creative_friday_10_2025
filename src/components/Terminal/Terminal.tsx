@@ -1,7 +1,7 @@
 import type { FC, KeyboardEvent } from 'react';
 import { useEffect, useRef, useState } from 'react';
+import { useTranslations } from '../../contexts';
 import terminalCommands from '../../data/terminal-commands.json';
-import translations from '../../data/translations-en.json';
 import './Terminal.css';
 
 interface TerminalLine {
@@ -17,12 +17,13 @@ interface Command {
 }
 
 export const Terminal: FC = () => {
-  const t = translations.terminal;
-  const tCommands = translations.terminalCommands;
+  const { t } = useTranslations();
+  const tTerminal = t.terminal;
+  const tCommands = t.terminalCommands;
 
   const [history, setHistory] = useState<TerminalLine[]>([
-    { type: 'output', content: t.welcome.version },
-    { type: 'output', content: t.welcome.help },
+    { type: 'output', content: tTerminal.welcome.version },
+    { type: 'output', content: tTerminal.welcome.help },
     { type: 'output', content: '' },
   ]);
   const [input, setInput] = useState('');
@@ -57,15 +58,15 @@ export const Terminal: FC = () => {
 
     if (commandName === 'help') {
       const helpText = [
-        t.help.title,
+        tTerminal.help.title,
         '',
         ...commands.map((cmd) => {
           const cmdKey = cmd.name as keyof typeof tCommands;
           const description = tCommands[cmdKey]?.description || cmd.description;
           return `  ${cmd.name.padEnd(10)} - ${description}`;
         }),
-        `  ${t.help.helpCommand}`,
-        `  ${t.help.clearCommand}`,
+        `  ${tTerminal.help.helpCommand}`,
+        `  ${tTerminal.help.clearCommand}`,
       ];
       setHistory((prev) => [
         ...prev,
@@ -86,7 +87,10 @@ export const Terminal: FC = () => {
         ...prev,
         {
           type: 'error',
-          content: t.errors.commandNotFound.replace('{command}', commandName),
+          content: tTerminal.errors.commandNotFound.replace(
+            '{command}',
+            commandName
+          ),
         },
         { type: 'output', content: '' },
       ]);
@@ -107,7 +111,7 @@ export const Terminal: FC = () => {
       case 'date':
         return new Date().toLocaleString();
       default:
-        return t.errors.notImplemented;
+        return tTerminal.errors.notImplemented;
     }
   };
 
@@ -169,7 +173,7 @@ export const Terminal: FC = () => {
         <div ref={terminalEndRef} />
       </div>
       <div className="terminal-input-line">
-        <span className="terminal-prompt">{t.prompt}</span>
+        <span className="terminal-prompt">{tTerminal.prompt}</span>
         <input
           ref={inputRef}
           type="text"

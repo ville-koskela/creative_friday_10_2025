@@ -1,6 +1,6 @@
 import type { CSSProperties, FC, ReactNode } from 'react';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import translations from '../../data/translations-en.json';
+import { useTranslations } from '../../contexts';
 import './FloatingWindow.css';
 
 interface FloatingWindowProps {
@@ -20,7 +20,7 @@ interface FloatingWindowProps {
 
 export const FloatingWindow: FC<FloatingWindowProps> = ({
   children,
-  title = translations.floatingWindow.defaultTitle,
+  title,
   initialX = 100,
   initialY = 100,
   initialWidth = 400,
@@ -32,7 +32,10 @@ export const FloatingWindow: FC<FloatingWindowProps> = ({
   className = '',
   style = {},
 }) => {
-  const t = translations.floatingWindow.aria;
+  const { t } = useTranslations();
+  const tWindow = t.floatingWindow;
+  const windowTitle = title || tWindow.defaultTitle;
+
   const windowRef = useRef<HTMLDivElement>(null);
   const [position, setPosition] = useState({ x: initialX, y: initialY });
   const [size, setSize] = useState({
@@ -165,14 +168,14 @@ export const FloatingWindow: FC<FloatingWindowProps> = ({
           }
         }}
       >
-        <span className="floating-window-title">{title}</span>
+        <span className="floating-window-title">{windowTitle}</span>
         <div className="floating-window-controls">
           {onMinimize && (
             <button
               type="button"
               className="floating-window-minimize"
               onClick={onMinimize}
-              aria-label={t.minimize}
+              aria-label={tWindow.aria.minimize}
             >
               −
             </button>
@@ -182,7 +185,7 @@ export const FloatingWindow: FC<FloatingWindowProps> = ({
               type="button"
               className="floating-window-close"
               onClick={onClose}
-              aria-label={t.close}
+              aria-label={tWindow.aria.close}
             >
               ×
             </button>
@@ -199,7 +202,7 @@ export const FloatingWindow: FC<FloatingWindowProps> = ({
         onMouseDown={(e) => handleMouseDownResize(e, 's')}
         role="button"
         tabIndex={-1}
-        aria-label={t.resizeBottom}
+        aria-label={tWindow.aria.resizeBottom}
       />
       {/* biome-ignore lint/a11y/useSemanticElements: Resize handles need to be divs for proper positioning and cursor styling */}
       <div
@@ -207,7 +210,7 @@ export const FloatingWindow: FC<FloatingWindowProps> = ({
         onMouseDown={(e) => handleMouseDownResize(e, 'e')}
         role="button"
         tabIndex={-1}
-        aria-label={t.resizeRight}
+        aria-label={tWindow.aria.resizeRight}
       />
       {/* biome-ignore lint/a11y/useSemanticElements: Resize handles need to be divs for proper positioning and cursor styling */}
       <div
@@ -215,7 +218,7 @@ export const FloatingWindow: FC<FloatingWindowProps> = ({
         onMouseDown={(e) => handleMouseDownResize(e, 'se')}
         role="button"
         tabIndex={-1}
-        aria-label={t.resizeBottomRight}
+        aria-label={tWindow.aria.resizeBottomRight}
       />
     </div>
   );

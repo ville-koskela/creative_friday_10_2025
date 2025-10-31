@@ -1,9 +1,10 @@
 import { strict as assert } from 'node:assert';
 import { beforeEach, describe, test } from 'node:test';
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent } from '@testing-library/react';
 import { WindowManager } from '../../../src/components/WindowManager';
-import { useWindows, WindowProvider } from '../../../src/contexts';
+import { useWindows } from '../../../src/contexts';
 import { createDOM } from '../../test-utils/create-dom';
+import { renderWithProviders } from '../../test-utils/render-with-providers';
 
 // Helper component to create windows programmatically
 const WindowCreator = ({
@@ -28,19 +29,15 @@ describe('WindowManager', () => {
   });
 
   test('renders nothing when no windows exist', () => {
-    const { container } = render(
-      <WindowProvider>
-        <WindowManager />
-      </WindowProvider>
-    );
+    const { container } = renderWithProviders(<WindowManager />);
 
     const windows = container.querySelectorAll('.floating-window');
     assert.equal(windows.length, 0);
   });
 
   test('renders a single window from context', () => {
-    const { container, getByText } = render(
-      <WindowProvider>
+    const { container, getByText } = renderWithProviders(
+      <>
         <WindowCreator
           onCreate={(createWindow) => {
             createWindow({
@@ -51,7 +48,7 @@ describe('WindowManager', () => {
           }}
         />
         <WindowManager />
-      </WindowProvider>
+      </>
     );
 
     const createButton = getByText('Create Window');
@@ -67,8 +64,8 @@ describe('WindowManager', () => {
   });
 
   test('renders multiple windows from context', () => {
-    const { container, getByText } = render(
-      <WindowProvider>
+    const { container, getByText } = renderWithProviders(
+      <>
         <WindowCreator
           onCreate={(createWindow) => {
             createWindow({
@@ -89,7 +86,7 @@ describe('WindowManager', () => {
           }}
         />
         <WindowManager />
-      </WindowProvider>
+      </>
     );
 
     const createButton = getByText('Create Window');
@@ -135,10 +132,8 @@ describe('WindowManager', () => {
       );
     };
 
-    const { container, getByText, queryByText } = render(
-      <WindowProvider>
-        <TestComponent />
-      </WindowProvider>
+    const { container, getByText, queryByText } = renderWithProviders(
+      <TestComponent />
     );
 
     const createButton = getByText('Create Windows');
@@ -188,11 +183,7 @@ describe('WindowManager', () => {
       );
     };
 
-    const { container, getByText } = render(
-      <WindowProvider>
-        <TestComponent />
-      </WindowProvider>
-    );
+    const { container, getByText } = renderWithProviders(<TestComponent />);
 
     const createButton = getByText('Create Windows');
     fireEvent.click(createButton);
@@ -264,11 +255,7 @@ describe('WindowManager', () => {
       );
     };
 
-    const { container, getByText } = render(
-      <WindowProvider>
-        <TestComponent />
-      </WindowProvider>
-    );
+    const { container, getByText } = renderWithProviders(<TestComponent />);
 
     const createButton = getByText('Create Window');
     fireEvent.click(createButton);
@@ -326,11 +313,7 @@ describe('WindowManager', () => {
       );
     };
 
-    const { container, getByText } = render(
-      <WindowProvider>
-        <TestComponent />
-      </WindowProvider>
-    );
+    const { container, getByText } = renderWithProviders(<TestComponent />);
 
     const createButton = getByText('Create Window');
     fireEvent.click(createButton);
@@ -388,11 +371,7 @@ describe('WindowManager', () => {
       );
     };
 
-    const { container, getByText } = render(
-      <WindowProvider>
-        <TestComponent />
-      </WindowProvider>
-    );
+    const { container, getByText } = renderWithProviders(<TestComponent />);
 
     const createButton = getByText('Create Window');
     fireEvent.click(createButton);
@@ -421,8 +400,8 @@ describe('WindowManager', () => {
   });
 
   test('passes window properties to FloatingWindow', () => {
-    const { container, getByText } = render(
-      <WindowProvider>
+    const { container, getByText } = renderWithProviders(
+      <>
         <WindowCreator
           onCreate={(createWindow) => {
             createWindow({
@@ -441,7 +420,7 @@ describe('WindowManager', () => {
           }}
         />
         <WindowManager />
-      </WindowProvider>
+      </>
     );
 
     const createButton = getByText('Create Window');
@@ -464,8 +443,8 @@ describe('WindowManager', () => {
   });
 
   test('applies z-index from window state', () => {
-    const { container, getByText } = render(
-      <WindowProvider>
+    const { container, getByText } = renderWithProviders(
+      <>
         <WindowCreator
           onCreate={(createWindow) => {
             createWindow({
@@ -481,7 +460,7 @@ describe('WindowManager', () => {
           }}
         />
         <WindowManager />
-      </WindowProvider>
+      </>
     );
 
     const createButton = getByText('Create Window');
@@ -512,8 +491,8 @@ describe('WindowManager', () => {
       );
     };
 
-    const { container, getByText, getByRole } = render(
-      <WindowProvider>
+    const { container, getByText, getByRole } = renderWithProviders(
+      <>
         <WindowCreator
           onCreate={(createWindow) => {
             createWindow({
@@ -524,7 +503,7 @@ describe('WindowManager', () => {
           }}
         />
         <TestComponent />
-      </WindowProvider>
+      </>
     );
 
     const createButton = getByText('Create Window');
@@ -540,8 +519,8 @@ describe('WindowManager', () => {
   });
 
   test('window wrapper has correct accessibility attributes', () => {
-    const { container, getByText } = render(
-      <WindowProvider>
+    const { container, getByText } = renderWithProviders(
+      <>
         <WindowCreator
           onCreate={(createWindow) => {
             createWindow({
@@ -552,7 +531,7 @@ describe('WindowManager', () => {
           }}
         />
         <WindowManager />
-      </WindowProvider>
+      </>
     );
 
     const createButton = getByText('Create Window');
@@ -571,8 +550,8 @@ describe('WindowManager', () => {
   });
 
   test('renders windows with unique keys', () => {
-    const { container, getByText } = render(
-      <WindowProvider>
+    const { container, getByText } = renderWithProviders(
+      <>
         <WindowCreator
           onCreate={(createWindow) => {
             createWindow({
@@ -588,7 +567,7 @@ describe('WindowManager', () => {
           }}
         />
         <WindowManager />
-      </WindowProvider>
+      </>
     );
 
     const createButton = getByText('Create Window');
@@ -603,8 +582,8 @@ describe('WindowManager', () => {
   });
 
   test('merges window style with z-index', () => {
-    const { container, getByText } = render(
-      <WindowProvider>
+    const { container, getByText } = renderWithProviders(
+      <>
         <WindowCreator
           onCreate={(createWindow) => {
             createWindow({
@@ -619,7 +598,7 @@ describe('WindowManager', () => {
           }}
         />
         <WindowManager />
-      </WindowProvider>
+      </>
     );
 
     const createButton = getByText('Create Window');
@@ -667,11 +646,7 @@ describe('WindowManager', () => {
       );
     };
 
-    const { getByText, queryByText } = render(
-      <WindowProvider>
-        <TestComponent />
-      </WindowProvider>
-    );
+    const { getByText, queryByText } = renderWithProviders(<TestComponent />);
 
     const createButton = getByText('Create');
     fireEvent.click(createButton);
@@ -722,11 +697,7 @@ describe('WindowManager', () => {
       );
     };
 
-    const { getByText, queryByText } = render(
-      <WindowProvider>
-        <TestComponent />
-      </WindowProvider>
-    );
+    const { getByText, queryByText } = renderWithProviders(<TestComponent />);
 
     const createButton = getByText('Create and Minimize All');
     fireEvent.click(createButton);
@@ -748,8 +719,8 @@ describe('WindowManager', () => {
       </div>
     );
 
-    const { getByText, getByRole } = render(
-      <WindowProvider>
+    const { getByText, getByRole } = renderWithProviders(
+      <>
         <WindowCreator
           onCreate={(createWindow) => {
             createWindow({
@@ -760,7 +731,7 @@ describe('WindowManager', () => {
           }}
         />
         <WindowManager />
-      </WindowProvider>
+      </>
     );
 
     const createButton = getByText('Create Window');

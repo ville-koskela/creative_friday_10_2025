@@ -4,7 +4,7 @@
     "languageSettings": {
       "title": "Kieliasetukset",
       "label": "Kieli",
-      "description": "Kielituki on tulossa pian. Tällä hetkellä vain näyttöä varten."
+      "description": "Valitse haluamasi kieli."
     },
     "themePresets": {
       "title": "Teemapohjat",

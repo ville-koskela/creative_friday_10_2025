@@ -1,8 +1,8 @@
 import { strict as assert } from 'node:assert';
 import { beforeEach, describe, test } from 'node:test';
-import { render } from '@testing-library/react';
 import { FloatingWindow } from '../../../src/components/FloatingWindow';
 import { createDOM } from '../../test-utils/create-dom';
+import { renderWithProviders } from '../../test-utils/render-with-providers';
 
 describe('FloatingWindow', () => {
   // Always set up DOM environment before tests
@@ -11,7 +11,7 @@ describe('FloatingWindow', () => {
   });
 
   test('renders with required props', () => {
-    const { getByText } = render(
+    const { getByText } = renderWithProviders(
       <FloatingWindow>
         <p>Window content</p>
       </FloatingWindow>
@@ -22,7 +22,7 @@ describe('FloatingWindow', () => {
   });
 
   test('renders with default title', () => {
-    const { getByText } = render(
+    const { getByText } = renderWithProviders(
       <FloatingWindow>
         <p>Content</p>
       </FloatingWindow>
@@ -33,7 +33,7 @@ describe('FloatingWindow', () => {
   });
 
   test('renders with custom title', () => {
-    const { getByText } = render(
+    const { getByText } = renderWithProviders(
       <FloatingWindow title="My Custom Window">
         <p>Content</p>
       </FloatingWindow>
@@ -44,7 +44,7 @@ describe('FloatingWindow', () => {
   });
 
   test('renders children correctly', () => {
-    const { getByText } = render(
+    const { getByText } = renderWithProviders(
       <FloatingWindow title="Test">
         <div>
           <h1>Heading</h1>
@@ -58,7 +58,7 @@ describe('FloatingWindow', () => {
   });
 
   test('applies default position', () => {
-    const { container } = render(
+    const { container } = renderWithProviders(
       <FloatingWindow>
         <p>Content</p>
       </FloatingWindow>
@@ -72,7 +72,7 @@ describe('FloatingWindow', () => {
   });
 
   test('applies custom initial position', () => {
-    const { container } = render(
+    const { container } = renderWithProviders(
       <FloatingWindow initialX={200} initialY={150}>
         <p>Content</p>
       </FloatingWindow>
@@ -86,7 +86,7 @@ describe('FloatingWindow', () => {
   });
 
   test('applies default size', () => {
-    const { container } = render(
+    const { container } = renderWithProviders(
       <FloatingWindow>
         <p>Content</p>
       </FloatingWindow>
@@ -100,7 +100,7 @@ describe('FloatingWindow', () => {
   });
 
   test('applies custom initial size', () => {
-    const { container } = render(
+    const { container } = renderWithProviders(
       <FloatingWindow initialWidth={600} initialHeight={450}>
         <p>Content</p>
       </FloatingWindow>
@@ -114,7 +114,7 @@ describe('FloatingWindow', () => {
   });
 
   test('renders close button when onClose is provided', () => {
-    const { getByRole } = render(
+    const { getByRole } = renderWithProviders(
       <FloatingWindow onClose={() => {}}>
         <p>Content</p>
       </FloatingWindow>
@@ -125,7 +125,7 @@ describe('FloatingWindow', () => {
   });
 
   test('does not render close button when onClose is not provided', () => {
-    const { container } = render(
+    const { container } = renderWithProviders(
       <FloatingWindow>
         <p>Content</p>
       </FloatingWindow>
@@ -141,7 +141,7 @@ describe('FloatingWindow', () => {
       closed = true;
     };
 
-    const { getByRole } = render(
+    const { getByRole } = renderWithProviders(
       <FloatingWindow onClose={handleClose}>
         <p>Content</p>
       </FloatingWindow>
@@ -154,7 +154,7 @@ describe('FloatingWindow', () => {
   });
 
   test('applies custom className', () => {
-    const { container } = render(
+    const { container } = renderWithProviders(
       <FloatingWindow className="custom-window">
         <p>Content</p>
       </FloatingWindow>
@@ -170,7 +170,7 @@ describe('FloatingWindow', () => {
       border: '2px solid blue',
     };
 
-    const { container } = render(
+    const { container } = renderWithProviders(
       <FloatingWindow style={customStyle}>
         <p>Content</p>
       </FloatingWindow>
@@ -183,7 +183,7 @@ describe('FloatingWindow', () => {
   });
 
   test('renders header with drag handle', () => {
-    const { container } = render(
+    const { container } = renderWithProviders(
       <FloatingWindow title="Draggable">
         <p>Content</p>
       </FloatingWindow>
@@ -196,7 +196,7 @@ describe('FloatingWindow', () => {
   });
 
   test('renders content area', () => {
-    const { container } = render(
+    const { container } = renderWithProviders(
       <FloatingWindow>
         <p>Test content</p>
       </FloatingWindow>
@@ -208,7 +208,7 @@ describe('FloatingWindow', () => {
   });
 
   test('renders resize handles', () => {
-    const { container } = render(
+    const { container } = renderWithProviders(
       <FloatingWindow>
         <p>Content</p>
       </FloatingWindow>
@@ -224,7 +224,7 @@ describe('FloatingWindow', () => {
   });
 
   test('resize handles have proper aria labels', () => {
-    const { container } = render(
+    const { container } = renderWithProviders(
       <FloatingWindow>
         <p>Content</p>
       </FloatingWindow>
@@ -241,7 +241,7 @@ describe('FloatingWindow', () => {
 
   test('accepts minWidth and minHeight props', () => {
     // Test that component renders without error with min size props
-    const { container } = render(
+    const { container } = renderWithProviders(
       <FloatingWindow minWidth={300} minHeight={200}>
         <p>Content</p>
       </FloatingWindow>
@@ -257,7 +257,7 @@ describe('FloatingWindow', () => {
       opacity: 0.8,
     };
 
-    const { container } = render(
+    const { container } = renderWithProviders(
       <FloatingWindow
         style={customStyle}
         initialX={50}
@@ -280,7 +280,7 @@ describe('FloatingWindow', () => {
   });
 
   test('header has proper keyboard interaction attributes', () => {
-    const { container } = render(
+    const { container } = renderWithProviders(
       <FloatingWindow title="Keyboard Test">
         <p>Content</p>
       </FloatingWindow>
@@ -293,7 +293,7 @@ describe('FloatingWindow', () => {
   });
 
   test('close button has proper type attribute', () => {
-    const { getByRole } = render(
+    const { getByRole } = renderWithProviders(
       <FloatingWindow onClose={() => {}}>
         <p>Content</p>
       </FloatingWindow>
@@ -309,7 +309,7 @@ describe('FloatingWindow', () => {
     const handleClose = () => {};
     const customStyle = { border: '1px solid black' };
 
-    const { container, getByText } = render(
+    const { container, getByText } = renderWithProviders(
       <FloatingWindow
         title="Complete Window"
         initialX={150}
@@ -344,7 +344,7 @@ describe('FloatingWindow', () => {
   });
 
   test('close button displays × symbol', () => {
-    const { getByRole } = render(
+    const { getByRole } = renderWithProviders(
       <FloatingWindow onClose={() => {}}>
         <p>Content</p>
       </FloatingWindow>
@@ -355,7 +355,7 @@ describe('FloatingWindow', () => {
   });
 
   test('title is displayed in header', () => {
-    const { container } = render(
+    const { container } = renderWithProviders(
       <FloatingWindow title="Test Window Title">
         <p>Content</p>
       </FloatingWindow>
@@ -367,7 +367,7 @@ describe('FloatingWindow', () => {
   });
 
   test('renders minimize button when onMinimize is provided', () => {
-    const { getByRole } = render(
+    const { getByRole } = renderWithProviders(
       <FloatingWindow onMinimize={() => {}}>
         <p>Content</p>
       </FloatingWindow>
@@ -378,7 +378,7 @@ describe('FloatingWindow', () => {
   });
 
   test('does not render minimize button when onMinimize is not provided', () => {
-    const { container } = render(
+    const { container } = renderWithProviders(
       <FloatingWindow>
         <p>Content</p>
       </FloatingWindow>
@@ -394,7 +394,7 @@ describe('FloatingWindow', () => {
       minimized = true;
     };
 
-    const { getByRole } = render(
+    const { getByRole } = renderWithProviders(
       <FloatingWindow onMinimize={handleMinimize}>
         <p>Content</p>
       </FloatingWindow>
@@ -407,7 +407,7 @@ describe('FloatingWindow', () => {
   });
 
   test('minimize button displays − symbol', () => {
-    const { getByRole } = render(
+    const { getByRole } = renderWithProviders(
       <FloatingWindow onMinimize={() => {}}>
         <p>Content</p>
       </FloatingWindow>
@@ -418,7 +418,7 @@ describe('FloatingWindow', () => {
   });
 
   test('minimize button has proper type attribute', () => {
-    const { getByRole } = render(
+    const { getByRole } = renderWithProviders(
       <FloatingWindow onMinimize={() => {}}>
         <p>Content</p>
       </FloatingWindow>
@@ -431,7 +431,7 @@ describe('FloatingWindow', () => {
   });
 
   test('renders both minimize and close buttons when both handlers provided', () => {
-    const { getByRole } = render(
+    const { getByRole } = renderWithProviders(
       <FloatingWindow onMinimize={() => {}} onClose={() => {}}>
         <p>Content</p>
       </FloatingWindow>
@@ -445,7 +445,7 @@ describe('FloatingWindow', () => {
   });
 
   test('renders controls container when minimize or close button exists', () => {
-    const { container } = render(
+    const { container } = renderWithProviders(
       <FloatingWindow onMinimize={() => {}} onClose={() => {}}>
         <p>Content</p>
       </FloatingWindow>
@@ -456,7 +456,7 @@ describe('FloatingWindow', () => {
   });
 
   test('minimize button appears before close button', () => {
-    const { container } = render(
+    const { container } = renderWithProviders(
       <FloatingWindow onMinimize={() => {}} onClose={() => {}}>
         <p>Content</p>
       </FloatingWindow>
@@ -483,7 +483,7 @@ describe('FloatingWindow', () => {
       closed = true;
     };
 
-    const { getByRole } = render(
+    const { getByRole } = renderWithProviders(
       <FloatingWindow onMinimize={handleMinimize} onClose={handleClose}>
         <p>Content</p>
       </FloatingWindow>
@@ -507,7 +507,7 @@ describe('FloatingWindow', () => {
       closed = true;
     };
 
-    const { getByRole } = render(
+    const { getByRole } = renderWithProviders(
       <FloatingWindow onMinimize={handleMinimize} onClose={handleClose}>
         <p>Content</p>
       </FloatingWindow>
@@ -525,7 +525,7 @@ describe('FloatingWindow', () => {
     const handleMinimize = () => {};
     const customStyle = { border: '1px solid black' };
 
-    const { container, getByText, getByRole } = render(
+    const { container, getByText, getByRole } = renderWithProviders(
       <FloatingWindow
         title="Complete Window"
         initialX={150}

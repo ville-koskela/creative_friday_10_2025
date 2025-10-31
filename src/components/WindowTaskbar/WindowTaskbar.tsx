@@ -1,13 +1,13 @@
 import { type FC, useState } from 'react';
-import { useWindows } from '../../contexts';
-import translations from '../../data/translations-en.json';
+import { useTranslations, useWindows } from '../../contexts';
 import { Settings } from '../Settings';
 import { Terminal } from '../Terminal';
 import './WindowTaskbar.css';
 
 export const WindowTaskbar: FC = () => {
-  const t = translations.taskbar;
-  const tApps = translations.taskbar.applications;
+  const { t } = useTranslations();
+  const tTaskbar = t.taskbar;
+  const tApps = t.taskbar.applications;
 
   const {
     windows,
@@ -58,10 +58,10 @@ export const WindowTaskbar: FC = () => {
           type="button"
           className={`start-menu-button ${isStartMenuOpen ? 'active' : ''}`}
           onClick={() => setIsStartMenuOpen(!isStartMenuOpen)}
-          title={t.start.title}
+          title={tTaskbar.start.title}
         >
           <span className="start-icon">⊞</span>
-          <span className="start-text">{t.start.text}</span>
+          <span className="start-text">{tTaskbar.start.text}</span>
         </button>
         {isStartMenuOpen && (
           <>
@@ -74,10 +74,10 @@ export const WindowTaskbar: FC = () => {
                   setIsStartMenuOpen(false);
                 }
               }}
-              aria-label={t.start.closeMenu}
+              aria-label={tTaskbar.start.closeMenu}
             />
             <div className="start-menu">
-              <div className="start-menu-header">{t.start.header}</div>
+              <div className="start-menu-header">{tTaskbar.start.header}</div>
               <div className="start-menu-items">
                 <button
                   type="button"
@@ -103,7 +103,7 @@ export const WindowTaskbar: FC = () => {
       <div className="taskbar-separator" />
       <div className="taskbar-items">
         {windows.length === 0 ? (
-          <div className="taskbar-empty">{t.noWindows}</div>
+          <div className="taskbar-empty">{tTaskbar.noWindows}</div>
         ) : (
           windows.map((window) => (
             <div key={window.id} className="taskbar-item">
@@ -132,7 +132,9 @@ export const WindowTaskbar: FC = () => {
                   }
                 }}
                 title={
-                  window.isMinimized ? t.window.restore : t.window.minimize
+                  window.isMinimized
+                    ? tTaskbar.window.restore
+                    : tTaskbar.window.minimize
                 }
               >
                 {window.isMinimized ? '▢' : '_'}
@@ -141,7 +143,7 @@ export const WindowTaskbar: FC = () => {
                 type="button"
                 className="taskbar-close"
                 onClick={() => closeWindow(window.id)}
-                title={t.window.close}
+                title={tTaskbar.window.close}
               >
                 ×
               </button>

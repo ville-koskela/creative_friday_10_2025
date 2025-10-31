@@ -1,9 +1,9 @@
 import { strict as assert } from 'node:assert';
 import { beforeEach, describe, test } from 'node:test';
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent } from '@testing-library/react';
 import { WindowTaskbar } from '../../../src/components/WindowTaskbar';
-import { WindowProvider } from '../../../src/contexts';
 import { createDOM } from '../../test-utils/create-dom';
+import { renderWithProviders } from '../../test-utils/render-with-providers';
 
 describe('WindowTaskbar', () => {
   beforeEach(() => {
@@ -11,11 +11,7 @@ describe('WindowTaskbar', () => {
   });
 
   test('renders taskbar with start menu button', () => {
-    const { getByTitle } = render(
-      <WindowProvider>
-        <WindowTaskbar />
-      </WindowProvider>
-    );
+    const { getByTitle } = renderWithProviders(<WindowTaskbar />);
 
     const startButton = getByTitle('Start Menu');
     assert.ok(startButton);
@@ -23,33 +19,21 @@ describe('WindowTaskbar', () => {
   });
 
   test('renders empty state when no windows are open', () => {
-    const { getByText } = render(
-      <WindowProvider>
-        <WindowTaskbar />
-      </WindowProvider>
-    );
+    const { getByText } = renderWithProviders(<WindowTaskbar />);
 
     const emptyMessage = getByText('No open windows');
     assert.ok(emptyMessage);
   });
 
   test('start menu is closed by default', () => {
-    const { container } = render(
-      <WindowProvider>
-        <WindowTaskbar />
-      </WindowProvider>
-    );
+    const { container } = renderWithProviders(<WindowTaskbar />);
 
     const startMenu = container.querySelector('.start-menu');
     assert.equal(startMenu, null);
   });
 
   test('start menu opens when start button is clicked', () => {
-    const { getByTitle, container } = render(
-      <WindowProvider>
-        <WindowTaskbar />
-      </WindowProvider>
-    );
+    const { getByTitle, container } = renderWithProviders(<WindowTaskbar />);
 
     const startButton = getByTitle('Start Menu');
     fireEvent.click(startButton);
@@ -59,11 +43,7 @@ describe('WindowTaskbar', () => {
   });
 
   test('start menu displays "Applications" header', () => {
-    const { getByTitle, getByText } = render(
-      <WindowProvider>
-        <WindowTaskbar />
-      </WindowProvider>
-    );
+    const { getByTitle, getByText } = renderWithProviders(<WindowTaskbar />);
 
     const startButton = getByTitle('Start Menu');
     fireEvent.click(startButton);
@@ -73,11 +53,7 @@ describe('WindowTaskbar', () => {
   });
 
   test('start menu contains "Terminal" menu item', () => {
-    const { getByTitle, getByText } = render(
-      <WindowProvider>
-        <WindowTaskbar />
-      </WindowProvider>
-    );
+    const { getByTitle, getByText } = renderWithProviders(<WindowTaskbar />);
 
     const startButton = getByTitle('Start Menu');
     fireEvent.click(startButton);
@@ -87,10 +63,8 @@ describe('WindowTaskbar', () => {
   });
 
   test('start menu closes when clicking backdrop', () => {
-    const { getByTitle, getByRole, container } = render(
-      <WindowProvider>
-        <WindowTaskbar />
-      </WindowProvider>
+    const { getByTitle, getByRole, container } = renderWithProviders(
+      <WindowTaskbar />
     );
 
     const startButton = getByTitle('Start Menu');
@@ -107,10 +81,8 @@ describe('WindowTaskbar', () => {
   });
 
   test('start menu closes when pressing Escape on backdrop', () => {
-    const { getByTitle, getByRole, container } = render(
-      <WindowProvider>
-        <WindowTaskbar />
-      </WindowProvider>
+    const { getByTitle, getByRole, container } = renderWithProviders(
+      <WindowTaskbar />
     );
 
     const startButton = getByTitle('Start Menu');
@@ -127,11 +99,7 @@ describe('WindowTaskbar', () => {
   });
 
   test('start button has active class when menu is open', () => {
-    const { getByTitle } = render(
-      <WindowProvider>
-        <WindowTaskbar />
-      </WindowProvider>
-    );
+    const { getByTitle } = renderWithProviders(<WindowTaskbar />);
 
     const startButton = getByTitle('Start Menu');
 
@@ -148,10 +116,8 @@ describe('WindowTaskbar', () => {
   });
 
   test('start menu closes when "Terminal" is clicked', () => {
-    const { getByTitle, getByText, container } = render(
-      <WindowProvider>
-        <WindowTaskbar />
-      </WindowProvider>
+    const { getByTitle, getByText, container } = renderWithProviders(
+      <WindowTaskbar />
     );
 
     const startButton = getByTitle('Start Menu');
@@ -165,22 +131,14 @@ describe('WindowTaskbar', () => {
   });
 
   test('renders taskbar separator', () => {
-    const { container } = render(
-      <WindowProvider>
-        <WindowTaskbar />
-      </WindowProvider>
-    );
+    const { container } = renderWithProviders(<WindowTaskbar />);
 
     const separator = container.querySelector('.taskbar-separator');
     assert.ok(separator);
   });
 
   test('taskbar has proper structure', () => {
-    const { container } = render(
-      <WindowProvider>
-        <WindowTaskbar />
-      </WindowProvider>
-    );
+    const { container } = renderWithProviders(<WindowTaskbar />);
 
     const taskbar = container.querySelector('.window-taskbar');
     const taskbarStart = container.querySelector('.taskbar-start');
@@ -192,11 +150,7 @@ describe('WindowTaskbar', () => {
   });
 
   test('start button contains icon and text', () => {
-    const { container } = render(
-      <WindowProvider>
-        <WindowTaskbar />
-      </WindowProvider>
-    );
+    const { container } = renderWithProviders(<WindowTaskbar />);
 
     const icon = container.querySelector('.start-icon');
     const text = container.querySelector('.start-text');
@@ -208,11 +162,7 @@ describe('WindowTaskbar', () => {
   });
 
   test('menu item contains icon and text', () => {
-    const { getByTitle, container } = render(
-      <WindowProvider>
-        <WindowTaskbar />
-      </WindowProvider>
-    );
+    const { getByTitle, container } = renderWithProviders(<WindowTaskbar />);
 
     const startButton = getByTitle('Start Menu');
     fireEvent.click(startButton);
@@ -227,10 +177,8 @@ describe('WindowTaskbar', () => {
   });
 
   test('all buttons have proper type attribute', () => {
-    const { getByTitle, getByRole, container } = render(
-      <WindowProvider>
-        <WindowTaskbar />
-      </WindowProvider>
+    const { getByTitle, getByRole, container } = renderWithProviders(
+      <WindowTaskbar />
     );
 
     const startButton = getByTitle('Start Menu') as HTMLButtonElement;
@@ -251,11 +199,7 @@ describe('WindowTaskbar', () => {
   });
 
   test('start menu has proper positioning classes', () => {
-    const { getByTitle, container } = render(
-      <WindowProvider>
-        <WindowTaskbar />
-      </WindowProvider>
-    );
+    const { getByTitle, container } = renderWithProviders(<WindowTaskbar />);
 
     const startButton = getByTitle('Start Menu');
     fireEvent.click(startButton);
@@ -270,11 +214,7 @@ describe('WindowTaskbar', () => {
   });
 
   test('toggles menu on multiple clicks', () => {
-    const { getByTitle, container } = render(
-      <WindowProvider>
-        <WindowTaskbar />
-      </WindowProvider>
-    );
+    const { getByTitle, container } = renderWithProviders(<WindowTaskbar />);
 
     const startButton = getByTitle('Start Menu');
 
