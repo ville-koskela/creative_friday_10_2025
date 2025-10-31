@@ -3,8 +3,12 @@
   bottom: 0;
   left: 0;
   right: 0;
-  background: linear-gradient(to bottom, #2a2a2a, #1a1a1a);
-  border-top: 1px solid #444;
+  background: linear-gradient(
+    to bottom,
+    var(--color-surface, #2a2a2a),
+    var(--color-background, #1a1a1a)
+  );
+  border-top: 1px solid var(--color-border, #444);
   padding: 8px 16px;
   display: flex;
   align-items: center;
@@ -20,10 +24,10 @@
 }
 
 .start-menu-button {
-  background: linear-gradient(to bottom, #3a3a3a, #2a2a2a);
-  border: 1px solid #555;
+  background: var(--color-surface, #3a3a3a);
+  border: 1px solid var(--color-border, #555);
   border-radius: 4px;
-  color: #fff;
+  color: var(--color-text, #fff);
   padding: 8px 16px;
   cursor: pointer;
   font-size: 14px;
@@ -36,15 +40,15 @@
 }
 
 .start-menu-button:hover {
-  background: linear-gradient(to bottom, #454545, #353535);
-  border-color: #666;
+  background: var(--color-primary, #4a90e2);
+  border-color: var(--color-primary, #666);
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
 }
 
 .start-menu-button.active {
-  background: linear-gradient(to bottom, #2a2a2a, #1a1a1a);
-  border-color: #4a90e2;
-  box-shadow: 0 0 8px rgba(74, 144, 226, 0.4);
+  background: var(--color-primary, #2a2a2a);
+  border-color: var(--color-primary, #4a90e2);
+  box-shadow: 0 0 8px var(--color-primary, rgba(74, 144, 226, 0.4));
 }
 
 .start-icon {
@@ -74,8 +78,8 @@
   bottom: 100%;
   left: 0;
   margin-bottom: 8px;
-  background: linear-gradient(to bottom, #2a2a2a, #1a1a1a);
-  border: 1px solid #555;
+  background: var(--color-surface, #2a2a2a);
+  border: 1px solid var(--color-border, #555);
   border-radius: 6px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
   min-width: 280px;
@@ -84,12 +88,16 @@
 }
 
 .start-menu-header {
-  background: linear-gradient(to right, #4a90e2, #357abd);
-  color: #fff;
+  background: linear-gradient(
+    to right,
+    var(--color-primary, #4a90e2),
+    var(--color-secondary, #357abd)
+  );
+  color: var(--color-text, #fff);
   padding: 12px 16px;
   font-weight: 600;
   font-size: 14px;
-  border-bottom: 1px solid #555;
+  border-bottom: 1px solid var(--color-border, #555);
 }
 
 .start-menu-items {
@@ -100,7 +108,7 @@
   width: 100%;
   background: transparent;
   border: none;
-  color: #fff;
+  color: var(--color-text, #fff);
   padding: 12px 16px;
   cursor: pointer;
   font-size: 14px;
@@ -112,7 +120,7 @@
 }
 
 .start-menu-item:hover {
-  background: rgba(74, 144, 226, 0.2);
+  background: var(--color-primary, rgba(74, 144, 226, 0.2));
 }
 
 .menu-item-icon {
@@ -128,7 +136,7 @@
 .taskbar-separator {
   width: 1px;
   height: 32px;
-  background: #444;
+  background: var(--color-border, #444);
   margin: 0 8px;
 }
 
@@ -141,7 +149,7 @@
 }
 
 .taskbar-empty {
-  color: #666;
+  color: var(--color-text-secondary, #666);
   font-size: 12px;
   font-style: italic;
   padding: 8px 12px;
@@ -151,22 +159,22 @@
   display: flex;
   align-items: center;
   gap: 4px;
-  background: #333;
+  background: var(--color-surface, #333);
   border-radius: 4px;
   padding: 4px;
-  border: 1px solid #444;
+  border: 1px solid var(--color-border, #444);
   transition: all 0.2s;
 }
 
 .taskbar-item:hover {
-  background: #3a3a3a;
-  border-color: #555;
+  background: var(--color-primary, #3a3a3a);
+  border-color: var(--color-border, #555);
 }
 
 .taskbar-button {
   background: transparent;
   border: none;
-  color: #fff;
+  color: var(--color-text, #fff);
   padding: 6px 12px;
   cursor: pointer;
   font-size: 13px;
@@ -199,7 +207,7 @@
 .taskbar-close {
   background: transparent;
   border: none;
-  color: #999;
+  color: var(--color-text-secondary, #999);
   width: 24px;
   height: 24px;
   cursor: pointer;
@@ -213,11 +221,11 @@
 }
 
 .taskbar-minimize:hover {
-  background: rgba(255, 255, 255, 0.1);
-  color: #fff;
+  background: var(--color-warning, rgba(255, 255, 255, 0.1));
+  color: var(--color-text, #fff);
 }
 
 .taskbar-close:hover {
-  background: rgba(255, 59, 48, 0.8);
-  color: #fff;
+  background: var(--color-error, rgba(255, 59, 48, 0.8));
+  color: var(--color-text, #fff);
 }

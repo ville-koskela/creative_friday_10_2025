@@ -1,6 +1,6 @@
 .terminal {
-  background-color: #1e1e1e;
-  color: #d4d4d4;
+  background-color: var(--color-background, #1e1e1e);
+  color: var(--color-text, #d4d4d4);
   font-family: "Courier New", Courier, monospace;
   font-size: 14px;
   height: 100%;
@@ -19,7 +19,7 @@
   overflow-y: auto;
   margin-bottom: 8px;
   scrollbar-width: thin;
-  scrollbar-color: #424242 #1e1e1e;
+  scrollbar-color: var(--color-border, #424242) var(--color-background, #1e1e1e);
   min-height: 0;
   text-align: left;
 }
@@ -29,11 +29,11 @@
 }
 
 .terminal-output::-webkit-scrollbar-track {
-  background: #1e1e1e;
+  background: var(--color-background, #1e1e1e);
 }
 
 .terminal-output::-webkit-scrollbar-thumb {
-  background-color: #424242;
+  background-color: var(--color-border, #424242);
   border-radius: 4px;
 }
 
@@ -47,15 +47,15 @@
 }
 
 .terminal-input {
-  color: #d4d4d4;
+  color: var(--color-text, #d4d4d4);
 }
 
 .terminal-output {
-  color: #d4d4d4;
+  color: var(--color-text, #d4d4d4);
 }
 
 .terminal-error {
-  color: #f48771;
+  color: var(--color-error, #f48771);
 }
 
 .terminal-input-line {
@@ -65,7 +65,7 @@
 }
 
 .terminal-prompt {
-  color: #4ec9b0;
+  color: var(--color-success, #4ec9b0);
   font-weight: bold;
   user-select: none;
 }
@@ -78,14 +78,14 @@
   font-family: inherit;
   font-size: inherit;
   color: inherit;
-  caret-color: #4ec9b0;
+  caret-color: var(--color-success, #4ec9b0);
   animation: blink-caret 0.7s step-end infinite;
 }
 
 @keyframes blink-caret {
   0%,
   100% {
-    caret-color: #4ec9b0;
+    caret-color: var(--color-success, #4ec9b0);
   }
   50% {
     caret-color: transparent;
