@@ -365,4 +365,200 @@ describe('FloatingWindow', () => {
     assert.ok(titleElement);
     assert.equal(titleElement?.textContent, 'Test Window Title');
   });
+
+  test('renders minimize button when onMinimize is provided', () => {
+    const { getByRole } = render(
+      <FloatingWindow onMinimize={() => {}}>
+        <p>Content</p>
+      </FloatingWindow>
+    );
+
+    const minimizeButton = getByRole('button', { name: 'Minimize window' });
+    assert.ok(minimizeButton);
+  });
+
+  test('does not render minimize button when onMinimize is not provided', () => {
+    const { container } = render(
+      <FloatingWindow>
+        <p>Content</p>
+      </FloatingWindow>
+    );
+
+    const minimizeButton = container.querySelector('.floating-window-minimize');
+    assert.equal(minimizeButton, null);
+  });
+
+  test('calls onMinimize when minimize button is clicked', () => {
+    let minimized = false;
+    const handleMinimize = () => {
+      minimized = true;
+    };
+
+    const { getByRole } = render(
+      <FloatingWindow onMinimize={handleMinimize}>
+        <p>Content</p>
+      </FloatingWindow>
+    );
+
+    const minimizeButton = getByRole('button', { name: 'Minimize window' });
+    minimizeButton.click();
+
+    assert.equal(minimized, true);
+  });
+
+  test('minimize button displays − symbol', () => {
+    const { getByRole } = render(
+      <FloatingWindow onMinimize={() => {}}>
+        <p>Content</p>
+      </FloatingWindow>
+    );
+
+    const minimizeButton = getByRole('button', { name: 'Minimize window' });
+    assert.equal(minimizeButton.textContent, '−');
+  });
+
+  test('minimize button has proper type attribute', () => {
+    const { getByRole } = render(
+      <FloatingWindow onMinimize={() => {}}>
+        <p>Content</p>
+      </FloatingWindow>
+    );
+
+    const minimizeButton = getByRole('button', {
+      name: 'Minimize window',
+    }) as HTMLButtonElement;
+    assert.equal(minimizeButton.type, 'button');
+  });
+
+  test('renders both minimize and close buttons when both handlers provided', () => {
+    const { getByRole } = render(
+      <FloatingWindow onMinimize={() => {}} onClose={() => {}}>
+        <p>Content</p>
+      </FloatingWindow>
+    );
+
+    const minimizeButton = getByRole('button', { name: 'Minimize window' });
+    const closeButton = getByRole('button', { name: 'Close window' });
+
+    assert.ok(minimizeButton);
+    assert.ok(closeButton);
+  });
+
+  test('renders controls container when minimize or close button exists', () => {
+    const { container } = render(
+      <FloatingWindow onMinimize={() => {}} onClose={() => {}}>
+        <p>Content</p>
+      </FloatingWindow>
+    );
+
+    const controls = container.querySelector('.floating-window-controls');
+    assert.ok(controls);
+  });
+
+  test('minimize button appears before close button', () => {
+    const { container } = render(
+      <FloatingWindow onMinimize={() => {}} onClose={() => {}}>
+        <p>Content</p>
+      </FloatingWindow>
+    );
+
+    const controls = container.querySelector('.floating-window-controls');
+    assert.ok(controls);
+
+    const buttons = controls?.querySelectorAll('button');
+    assert.ok(buttons);
+    assert.equal(buttons.length, 2);
+    assert.ok(buttons[0].classList.contains('floating-window-minimize'));
+    assert.ok(buttons[1].classList.contains('floating-window-close'));
+  });
+
+  test('only minimize button is called when clicked, not close', () => {
+    let minimized = false;
+    let closed = false;
+
+    const handleMinimize = () => {
+      minimized = true;
+    };
+    const handleClose = () => {
+      closed = true;
+    };
+
+    const { getByRole } = render(
+      <FloatingWindow onMinimize={handleMinimize} onClose={handleClose}>
+        <p>Content</p>
+      </FloatingWindow>
+    );
+
+    const minimizeButton = getByRole('button', { name: 'Minimize window' });
+    minimizeButton.click();
+
+    assert.equal(minimized, true);
+    assert.equal(closed, false);
+  });
+
+  test('only close button is called when clicked, not minimize', () => {
+    let minimized = false;
+    let closed = false;
+
+    const handleMinimize = () => {
+      minimized = true;
+    };
+    const handleClose = () => {
+      closed = true;
+    };
+
+    const { getByRole } = render(
+      <FloatingWindow onMinimize={handleMinimize} onClose={handleClose}>
+        <p>Content</p>
+      </FloatingWindow>
+    );
+
+    const closeButton = getByRole('button', { name: 'Close window' });
+    closeButton.click();
+
+    assert.equal(minimized, false);
+    assert.equal(closed, true);
+  });
+
+  test('renders with all props including minimize', () => {
+    const handleClose = () => {};
+    const handleMinimize = () => {};
+    const customStyle = { border: '1px solid black' };
+
+    const { container, getByText, getByRole } = render(
+      <FloatingWindow
+        title="Complete Window"
+        initialX={150}
+        initialY={200}
+        initialWidth={500}
+        initialHeight={400}
+        minWidth={250}
+        minHeight={200}
+        onClose={handleClose}
+        onMinimize={handleMinimize}
+        className="custom-class"
+        style={customStyle}
+      >
+        <p>Full featured window</p>
+      </FloatingWindow>
+    );
+
+    const title = getByText('Complete Window');
+    const content = getByText('Full featured window');
+    const window = container.querySelector(
+      '.floating-window.custom-class'
+    ) as HTMLElement;
+    const minimizeButton = getByRole('button', { name: 'Minimize window' });
+    const closeButton = getByRole('button', { name: 'Close window' });
+
+    assert.ok(title);
+    assert.ok(content);
+    assert.ok(window);
+    assert.ok(minimizeButton);
+    assert.ok(closeButton);
+    assert.equal(window.style.left, '150px');
+    assert.equal(window.style.top, '200px');
+    assert.equal(window.style.width, '500px');
+    assert.equal(window.style.height, '400px');
+  });
 });

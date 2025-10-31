@@ -3,7 +3,7 @@ import { useWindows } from '../../contexts';
 import { FloatingWindow } from '../FloatingWindow';
 
 export const WindowManager: FC = () => {
-  const { windows, closeWindow, bringToFront } = useWindows();
+  const { windows, closeWindow, bringToFront, minimizeWindow } = useWindows();
 
   return (
     <>
@@ -35,6 +35,7 @@ export const WindowManager: FC = () => {
               minWidth={window.minWidth}
               minHeight={window.minHeight}
               onClose={() => closeWindow(window.id)}
+              onMinimize={() => minimizeWindow(window.id)}
               className={window.className}
               style={{
                 ...window.style,

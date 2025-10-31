@@ -28,6 +28,13 @@
   color: #333;
 }
 
+.floating-window-controls {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.floating-window-minimize,
 .floating-window-close {
   background: none;
   border: none;
@@ -43,6 +50,11 @@
   justify-content: center;
   border-radius: 4px;
   transition: all 0.2s;
+}
+
+.floating-window-minimize:hover {
+  background: #f39c12;
+  color: white;
 }
 
 .floating-window-close:hover {

@@ -12,6 +12,7 @@ interface FloatingWindowProps {
   minWidth?: number;
   minHeight?: number;
   onClose?: () => void;
+  onMinimize?: () => void;
   className?: string;
   style?: CSSProperties;
 }
@@ -26,6 +27,7 @@ export const FloatingWindow: FC<FloatingWindowProps> = ({
   minWidth = 200,
   minHeight = 150,
   onClose,
+  onMinimize,
   className = '',
   style = {},
 }) => {
@@ -46,7 +48,8 @@ export const FloatingWindow: FC<FloatingWindowProps> = ({
     (e: React.MouseEvent) => {
       if (
         (e.target as HTMLElement).closest('.floating-window-header') &&
-        !(e.target as HTMLElement).closest('.floating-window-close')
+        !(e.target as HTMLElement).closest('.floating-window-close') &&
+        !(e.target as HTMLElement).closest('.floating-window-minimize')
       ) {
         setIsDragging(true);
         dragStart.current = {
@@ -57,9 +60,7 @@ export const FloatingWindow: FC<FloatingWindowProps> = ({
       }
     },
     [position]
-  );
-
-  // Handle resizing
+  ); // Handle resizing
   const handleMouseDownResize = useCallback(
     (e: React.MouseEvent, direction: string) => {
       setIsResizing(true);
@@ -163,16 +164,28 @@ export const FloatingWindow: FC<FloatingWindowProps> = ({
         }}
       >
         <span className="floating-window-title">{title}</span>
-        {onClose && (
-          <button
-            type="button"
-            className="floating-window-close"
-            onClick={onClose}
-            aria-label="Close window"
-          >
-            ×
-          </button>
-        )}
+        <div className="floating-window-controls">
+          {onMinimize && (
+            <button
+              type="button"
+              className="floating-window-minimize"
+              onClick={onMinimize}
+              aria-label="Minimize window"
+            >
+              −
+            </button>
+          )}
+          {onClose && (
+            <button
+              type="button"
+              className="floating-window-close"
+              onClick={onClose}
+              aria-label="Close window"
+            >
+              ×
+            </button>
+          )}
+        </div>
       </div>
 
       <div className="floating-window-content">{children}</div>
