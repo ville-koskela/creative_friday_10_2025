@@ -1,10 +1,10 @@
-import type React from 'react';
+import type { FC } from 'react';
 
 interface HelloWorldProps {
   name?: string;
 }
 
-const HelloWorld: React.FC<HelloWorldProps> = ({ name = 'World' }) => {
+export const HelloWorld: FC<HelloWorldProps> = ({ name = 'World' }) => {
   return (
     <div className="hello-world">
       <h1>Hello, {name}!</h1>
@@ -12,5 +12,3 @@ const HelloWorld: React.FC<HelloWorldProps> = ({ name = 'World' }) => {
     </div>
   );
 };
-
-export default HelloWorld;

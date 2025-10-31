@@ -1,7 +1,7 @@
 import { strict as assert } from 'node:assert';
 import { beforeEach, describe, test } from 'node:test';
 import { render } from '@testing-library/react';
-import HelloWorld from '../components/HelloWorld';
+import { HelloWorld } from '../components/HelloWorld';
 import { createDOM } from './test-utils/create-dom';
 
 describe('HelloWorld', () => {

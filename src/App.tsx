@@ -1,12 +1,10 @@
-import HelloWorld from './components/HelloWorld';
+import { HelloWorld } from './components/HelloWorld';
 import './App.css';
 
-function App() {
+export function App() {
   return (
     <div className="App">
       <HelloWorld />
     </div>
   );
 }
-
-export default App;
