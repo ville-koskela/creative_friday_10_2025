@@ -1,5 +1,6 @@
 import { type FC, useState } from 'react';
 import { useWindows } from '../../contexts';
+import { Terminal } from '../Terminal';
 import './WindowTaskbar.css';
 
 export const WindowTaskbar: FC = () => {
@@ -32,6 +33,22 @@ export const WindowTaskbar: FC = () => {
     setIsStartMenuOpen(false);
   };
 
+  const handleCreateTerminal = () => {
+    const terminalId = `terminal-${Date.now()}`;
+    createWindow({
+      id: terminalId,
+      title: 'Terminal',
+      content: <Terminal />,
+      initialX: 150 + windows.length * 30,
+      initialY: 150 + windows.length * 30,
+      initialWidth: 600,
+      initialHeight: 400,
+      minWidth: 400,
+      minHeight: 300,
+    });
+    setIsStartMenuOpen(false);
+  };
+
   return (
     <div className="window-taskbar">
       <div className="taskbar-start">
@@ -60,6 +77,14 @@ export const WindowTaskbar: FC = () => {
             <div className="start-menu">
               <div className="start-menu-header">Applications</div>
               <div className="start-menu-items">
+                <button
+                  type="button"
+                  className="start-menu-item"
+                  onClick={handleCreateTerminal}
+                >
+                  <span className="menu-item-icon">▶</span>
+                  <span className="menu-item-text">Terminal</span>
+                </button>
                 <button
                   type="button"
                   className="start-menu-item"

@@ -1,0 +1,16 @@
+{
+  "commands": [
+    {
+      "name": "echo",
+      "description": "Display a line of text",
+      "usage": "echo [text]",
+      "execute": "echo"
+    },
+    {
+      "name": "date",
+      "description": "Display current date and time",
+      "usage": "date",
+      "execute": "date"
+    }
+  ]
+}
