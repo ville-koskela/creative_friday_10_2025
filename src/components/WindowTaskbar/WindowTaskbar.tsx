@@ -14,25 +14,6 @@ export const WindowTaskbar: FC = () => {
   } = useWindows();
   const [isStartMenuOpen, setIsStartMenuOpen] = useState(false);
 
-  const handleCreateNewWindow = () => {
-    const windowId = `window-${Date.now()}`;
-    createWindow({
-      id: windowId,
-      title: `New Window ${windows.length + 1}`,
-      content: (
-        <div style={{ padding: '20px' }}>
-          <h2>New Window</h2>
-          <p>This is a newly created window.</p>
-        </div>
-      ),
-      initialX: 100 + windows.length * 30,
-      initialY: 100 + windows.length * 30,
-      initialWidth: 400,
-      initialHeight: 300,
-    });
-    setIsStartMenuOpen(false);
-  };
-
   const handleCreateTerminal = () => {
     const terminalId = `terminal-${Date.now()}`;
     createWindow({
@@ -84,14 +65,6 @@ export const WindowTaskbar: FC = () => {
                 >
                   <span className="menu-item-icon">▶</span>
                   <span className="menu-item-text">Terminal</span>
-                </button>
-                <button
-                  type="button"
-                  className="start-menu-item"
-                  onClick={handleCreateNewWindow}
-                >
-                  <span className="menu-item-icon">➕</span>
-                  <span className="menu-item-text">Create new window</span>
                 </button>
               </div>
             </div>
