@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect } from 'react';
+import { useLocalStorage } from '../hooks';
 import type { Settings, ThemeColors } from '../types/settings';
 import { defaultThemes } from '../types/settings';
 
@@ -28,16 +29,7 @@ interface SettingsProviderProps {
 
 const STORAGE_KEY = 'app-settings';
 
-const getInitialSettings = (): Settings => {
-  try {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    if (stored) {
-      return JSON.parse(stored);
-    }
-  } catch {
-    // Ignore errors and use default settings
-  }
-
+const getDefaultSettings = (): Settings => {
   // Check system preference for dark mode
   const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
   return {
@@ -47,7 +39,10 @@ const getInitialSettings = (): Settings => {
 };
 
 export const SettingsProvider = ({ children }: SettingsProviderProps) => {
-  const [settings, setSettings] = useState<Settings>(getInitialSettings);
+  const [settings, setSettings] = useLocalStorage<Settings>(
+    STORAGE_KEY,
+    getDefaultSettings()
+  );
 
   // Apply theme to CSS variables
   useEffect(() => {
@@ -67,21 +62,12 @@ export const SettingsProvider = ({ children }: SettingsProviderProps) => {
     root.style.setProperty('--color-error', settings.theme.error);
   }, [settings.theme]);
 
-  // Save settings to localStorage
-  useEffect(() => {
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(settings));
-    } catch {
-      // Ignore storage errors
-    }
-  }, [settings]);
-
   const updateLanguage = (language: string) => {
-    setSettings((prev) => ({ ...prev, language }));
+    setSettings((prev: Settings) => ({ ...prev, language }));
   };
 
   const updateTheme = (theme: ThemeColors) => {
-    setSettings((prev) => ({ ...prev, theme }));
+    setSettings((prev: Settings) => ({ ...prev, theme }));
   };
 
   const applyPresetTheme = (themeName: string) => {

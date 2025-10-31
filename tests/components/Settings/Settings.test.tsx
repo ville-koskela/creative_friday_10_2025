@@ -1,43 +1,44 @@
+import { strict as assert } from 'node:assert';
+import { describe, test } from 'node:test';
 import { fireEvent, render, screen } from '@testing-library/react';
-import { describe, expect, it } from 'vitest';
 import { Settings } from '../../../src/components/Settings/Settings';
 import { SettingsProvider } from '../../../src/contexts/SettingsContext';
 
 describe('Settings Component', () => {
-  it('renders without crashing', () => {
+  test('renders without crashing', () => {
     render(
       <SettingsProvider>
         <Settings />
       </SettingsProvider>
     );
-    expect(screen.getByText('Language Settings')).toBeDefined();
-    expect(screen.getByText('Theme Presets')).toBeDefined();
+    assert.ok(screen.getByText('Language Settings'));
+    assert.ok(screen.getByText('Theme Presets'));
   });
 
-  it('displays language selector', () => {
+  test('displays language selector', () => {
     render(
       <SettingsProvider>
         <Settings />
       </SettingsProvider>
     );
     const languageSelect = screen.getByLabelText('Language');
-    expect(languageSelect).toBeDefined();
+    assert.ok(languageSelect);
   });
 
-  it('displays theme preset buttons', () => {
+  test('displays theme preset buttons', () => {
     render(
       <SettingsProvider>
         <Settings />
       </SettingsProvider>
     );
-    expect(screen.getByText('Light')).toBeDefined();
-    expect(screen.getByText('Dark')).toBeDefined();
-    expect(screen.getByText('Ocean')).toBeDefined();
-    expect(screen.getByText('Sunset')).toBeDefined();
-    expect(screen.getByText('Forest')).toBeDefined();
+    assert.ok(screen.getByText('Light'));
+    assert.ok(screen.getByText('Dark'));
+    assert.ok(screen.getByText('Ocean'));
+    assert.ok(screen.getByText('Sunset'));
+    assert.ok(screen.getByText('Forest'));
   });
 
-  it('changes language when selected', () => {
+  test('changes language when selected', () => {
     render(
       <SettingsProvider>
         <Settings />
@@ -47,27 +48,27 @@ describe('Settings Component', () => {
       'Language'
     ) as HTMLSelectElement;
     fireEvent.change(languageSelect, { target: { value: 'fi' } });
-    expect(languageSelect.value).toBe('fi');
+    assert.equal(languageSelect.value, 'fi');
   });
 
-  it('displays custom theme color fields', () => {
+  test('displays custom theme color fields', () => {
     render(
       <SettingsProvider>
         <Settings />
       </SettingsProvider>
     );
-    expect(screen.getByText('Primary Color')).toBeDefined();
-    expect(screen.getByText('Secondary Color')).toBeDefined();
-    expect(screen.getByText('Background')).toBeDefined();
+    assert.ok(screen.getByText('Primary Color'));
+    assert.ok(screen.getByText('Secondary Color'));
+    assert.ok(screen.getByText('Background'));
   });
 
-  it('displays action buttons', () => {
+  test('displays action buttons', () => {
     render(
       <SettingsProvider>
         <Settings />
       </SettingsProvider>
     );
-    expect(screen.getByText('Apply Custom Theme')).toBeDefined();
-    expect(screen.getByText('Reset to Defaults')).toBeDefined();
+    assert.ok(screen.getByText('Apply Custom Theme'));
+    assert.ok(screen.getByText('Reset to Defaults'));
   });
 });
