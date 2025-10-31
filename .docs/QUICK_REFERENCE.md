@@ -2,6 +2,19 @@
 
 ## 🚀 Quick Start Commands
 
+### Prerequisites: Install asdf and Node.js
+
+```bash
+# Install Node.js plugin
+asdf plugin add nodejs https://github.com/asdf-vm/asdf-nodejs.git
+
+# Install Node.js 24 (LTS)
+asdf install nodejs 24.9.0
+
+# Set as local version (creates .tool-versions)
+asdf local nodejs 24.9.0
+```
+
 ### Vite + React + TypeScript (Only Option)
 
 ```bash
@@ -52,7 +65,10 @@ npm run build      # Should build successfully
 
 ## 📋 Setup Checklist
 
-- [ ] Node.js 24 LTS verified
+- [ ] asdf installed and configured
+- [ ] Node.js plugin added to asdf
+- [ ] Node.js 24.9.0 installed via asdf
+- [ ] `.tool-versions` file created
 - [ ] Vite project initialized with TypeScript
 - [ ] Minimal directory structure created
 - [ ] Essential dev dependencies installed (Biome.js)

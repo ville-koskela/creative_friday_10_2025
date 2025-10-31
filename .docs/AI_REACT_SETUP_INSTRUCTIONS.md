@@ -8,11 +8,39 @@ This document provides step-by-step instructions for AI agents to initialize a R
 
 Before starting, verify the following tools are available:
 
-- Node.js (version 24.0.0 or higher - LTS)
-- npm (comes with Node.js)
+- asdf (for version management)
 - Git (for version control)
 
-## Step 1: Project Initialization
+### Install asdf and Node.js
+
+If asdf is not installed, follow the installation guide in the project README.md. Once asdf is installed:
+
+```bash
+# Install Node.js plugin for asdf
+asdf plugin add nodejs https://github.com/asdf-vm/asdf-nodejs.git
+
+# Install Node.js 24 (LTS)
+asdf install nodejs 24.9.0
+
+# Set Node.js 24 as the version for this project
+asdf local nodejs 24.9.0
+```
+
+This will create a `.tool-versions` file in your project root to ensure consistent Node.js version across all environments.
+
+## Step 1: Version Management Setup
+
+### Create .tool-versions file
+
+Create a `.tool-versions` file in the project root:
+
+```
+nodejs 24.9.0
+```
+
+This ensures all developers use the same Node.js version managed by asdf.
+
+## Step 2: Project Initialization
 
 Initialize a new React project with Vite and TypeScript:
 
@@ -22,7 +50,7 @@ cd project-name
 npm install
 ```
 
-## Step 2: Minimal Dependencies Setup
+## Step 3: Minimal Dependencies Setup
 
 Install only essential development tools (TypeScript types are already included with Vite template):
 
@@ -36,7 +64,7 @@ npm install --save-dev @types/node tsx
 
 **Note**: No additional production dependencies are installed by default. Add only what your project specifically needs.
 
-## Step 3: Project Structure Setup
+## Step 4: Project Structure Setup
 
 Create the following minimal directory structure:
 
@@ -54,7 +82,7 @@ src/
 mkdir -p src/components src/types src/utils src/tests
 ```
 
-## Step 4: Configuration Files Setup
+## Step 5: Configuration Files Setup
 
 ### 1. Biome Configuration (biome.json)
 
@@ -156,7 +184,7 @@ export default {
 };
 ```
 
-## Step 5: Base Component Templates
+## Step 6: Base Component Templates
 
 ### 1. Update App Component (src/App.tsx)
 
@@ -215,7 +243,7 @@ describe('App Component', () => {
 });
 ```
 
-## Step 6: Environment Configuration
+## Step 7: Environment Configuration
 
 ### 1. Create Environment Files
 
@@ -262,7 +290,7 @@ dist/
 Thumbs.db
 ```
 
-## Step 7: Package.json Scripts Enhancement
+## Step 8: Package.json Scripts Enhancement
 
 Update package.json scripts section (Vite already includes dev, build, preview):
 
@@ -284,7 +312,7 @@ Update package.json scripts section (Vite already includes dev, build, preview):
 }
 ```
 
-## Step 8: Git Repository Setup
+## Step 9: Git Repository Setup
 
 ```bash
 # Initialize git repository (if not already done)
@@ -303,7 +331,7 @@ git remote add origin https://github.com/username/repository-name.git
 git push -u origin main
 ```
 
-## Step 9: Development Best Practices
+## Step 10: Development Best Practices
 
 ### TypeScript Best Practices
 
@@ -350,7 +378,7 @@ const Button: React.FC<ButtonProps> = ({
    const LazyComponent = lazy(() => import('./components/LazyComponent'));
    ```
 
-## Step 10: Development Workflow
+## Step 11: Development Workflow
 
 ### Daily Development Commands
 
@@ -400,15 +428,20 @@ After completing the setup, verify:
 - [ ] Build completes successfully (`npm run build`)
 - [ ] Essential directories are created (components, types, utils, tests)
 - [ ] Configuration files are in place (Biome, TypeScript)
+- [ ] `.tool-versions` file created with Node.js 24.9.0
+- [ ] asdf correctly manages Node.js version
 - [ ] Git repository is initialized and committed
 - [ ] Environment variables are configured (using VITE\_ prefix)
 
 ## Troubleshooting Common Issues
 
-### Node Version Issues
+### asdf and Node.js Version Issues
 
-- Use Node Version Manager (nvm) to manage Node.js versions
-- Ensure compatibility with project requirements
+- Ensure asdf is properly installed and added to your shell configuration
+- Run `asdf install` in the project directory to install Node.js from `.tool-versions`
+- Verify with `asdf current nodejs` to check the active version
+- If asdf is not found, restart your terminal after installation
+- Check README.md for detailed asdf installation instructions
 
 ### Port Conflicts
 
