@@ -25,7 +25,7 @@ cd project-name && npm install
 ## 📁 Minimal Directory Structure
 
 ```bash
-mkdir -p src/{components,types,utils,tests}
+mkdir -p src/{components,contexts,types,utils,assets} tests/{components,test-utils}
 ```
 
 ## 📦 Minimal Dependencies

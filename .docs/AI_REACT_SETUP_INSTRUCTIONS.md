@@ -77,15 +77,28 @@ Create the following minimal directory structure:
 ```
 src/
 ├── components/          # React components
+│   ├── ComponentName/   # Component directories (for complex components)
+│   │   ├── ComponentName.tsx
+│   │   ├── ComponentName.css
+│   │   └── index.ts     # Barrel export
+│   └── SimpleComponent.tsx  # Simple components (single file)
+├── contexts/            # React contexts (providers)
 ├── types/               # TypeScript type definitions
 ├── utils/               # Utility functions
-└── tests/               # Test files (Node.js test runner)
+└── assets/              # Static assets (images, etc.)
+
+tests/                   # Test files (root level)
+├── components/          # Component tests (mirror src/components structure)
+│   └── ComponentName/
+│       └── ComponentName.test.tsx
+└── test-utils/          # Testing utilities (createDOM, css-loader)
 ```
 
 ### Create Base Directory Structure
 
 ```bash
-mkdir -p src/components src/types src/utils src/tests
+mkdir -p src/components src/contexts src/types src/utils src/assets
+mkdir -p tests/components tests/test-utils
 ```
 
 ## Step 5: Configuration Files Setup
@@ -284,7 +297,7 @@ export interface AppState {
 }
 ```
 
-### 3. Create Sample Test (src/tests/App.test.ts)
+### 3. Create Sample Test (tests/components/App.test.ts)
 
 ```typescript
 import { test, describe } from 'node:test';
@@ -356,8 +369,8 @@ Update package.json scripts section (Vite already includes dev, build, preview):
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "test": "node --test src/tests/**/*.test.ts",
-    "test:watch": "node --test --watch src/tests/**/*.test.ts",
+    "test": "node --import tsx --experimental-loader ./tests/test-utils/css-loader.js --test tests/**/*.test.{ts,tsx}",
+    "test:watch": "node --import tsx --experimental-loader ./tests/test-utils/css-loader.js --test --watch tests/**/*.test.{ts,tsx}",
     "lint": "biome lint .",
     "lint:fix": "biome lint --write .",
     "format": "biome format --write .",

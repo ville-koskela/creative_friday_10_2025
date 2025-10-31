@@ -98,7 +98,7 @@ npm run test:watch
 
 ### Test Structure
 
-Tests are located in `src/tests/` and use:
+Tests are located in `tests/` (root level) and use:
 - `node:test` - Built-in test runner
 - `node:assert` (strict mode) - Assertions
 - `@testing-library/react` - React component testing
@@ -110,8 +110,8 @@ Example test:
 import { strict as assert } from 'node:assert';
 import { beforeEach, describe, test } from 'node:test';
 import { render } from '@testing-library/react';
-import { createDOM } from './test-utils/create-dom';
-import Component from '../components/Component';
+import { createDOM } from '../test-utils/create-dom';
+import { Component } from '../../src/components/Component';
 
 describe('Component', () => {
   beforeEach(() => {
@@ -199,13 +199,28 @@ npm config set save-exact true
 .
 ├── src/
 │   ├── components/      # React components
+│   │   ├── FloatingWindow/      # Component with own directory
+│   │   │   ├── FloatingWindow.tsx
+│   │   │   ├── FloatingWindow.css
+│   │   │   └── index.ts         # Barrel export
+│   │   ├── WindowManager/
+│   │   └── WindowTaskbar/
+│   ├── contexts/        # React contexts (e.g., WindowContext)
 │   ├── types/           # TypeScript type definitions
 │   ├── utils/           # Utility functions
-│   ├── tests/           # Test files
-│   │   └── test-utils/  # Testing utilities (e.g., createDOM)
+│   ├── assets/          # Static assets (images, etc.)
 │   ├── App.tsx          # Main App component
+│   ├── App.css          # App styles
 │   └── main.tsx         # Application entry point
-├── public/              # Static assets
+├── tests/               # Test files (root level)
+│   ├── components/      # Component tests
+│   │   ├── FloatingWindow/
+│   │   ├── WindowManager/
+│   │   └── WindowTaskbar/
+│   └── test-utils/      # Testing utilities (e.g., createDOM)
+├── public/              # Public static assets
+├── .docs/               # Project documentation
+├── .github/             # GitHub workflows and configurations
 ├── .husky/              # Git hooks
 ├── .vscode/             # VS Code settings
 ├── biome.json           # Biome configuration
@@ -232,8 +247,12 @@ The project includes `.vscode/settings.json` for automatic code formatting and i
 
 ## Additional Documentation
 
-For detailed setup instructions for AI agents, see:
-- `.docs/AI_REACT_SETUP_INSTRUCTIONS.md`
+For detailed guides for AI agents, see:
+- `.docs/AI_REACT_SETUP_INSTRUCTIONS.md` - Complete setup instructions
+- `.docs/AI_COMPONENT_CREATION_GUIDE.md` - Component creation guide
+- `.docs/COMPONENT_IMPLEMENTATION_GUIDE.md` - Implementation patterns
+- `.docs/COMPONENT_TESTING_GUIDE.md` - Testing guide
+- `.docs/QUICK_REFERENCE.md` - Quick reference
 
 ## License
 

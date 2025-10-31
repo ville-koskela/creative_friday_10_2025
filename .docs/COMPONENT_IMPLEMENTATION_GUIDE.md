@@ -41,11 +41,16 @@ export const ComponentName: FC<ComponentNameProps> = ({
 
 ### File Location & Naming Conventions
 
-- **Component files**: `src/components/ComponentName.tsx`
+- **Component files**: 
+  - Simple: `src/components/ComponentName.tsx`
+  - Complex: `src/components/ComponentName/ComponentName.tsx` with `index.ts` barrel export
+- **Component styles**: `src/components/ComponentName/ComponentName.css` (when using directories)
 - **Type definitions**: `src/types/` (for complex shared types)
 - **Utilities**: `src/utils/` (for helper functions)
+- **Contexts**: `src/contexts/` (for React contexts, e.g., WindowContext)
 - **Naming**: Use PascalCase for component files and names
 - **Exports**: Always use named exports, never default exports
+- **Barrel exports**: Use `index.ts` for re-exporting from component directories
 
 ---
 
@@ -340,7 +345,9 @@ git commit -m "fix: resolve UserCard rendering issue"
 When implementing a new component, follow this checklist:
 
 1. **Create component file**
-   - [ ] Place in `src/components/ComponentName.tsx`
+   - [ ] Place in `src/components/ComponentName.tsx` or `src/components/ComponentName/ComponentName.tsx`
+   - [ ] Create `index.ts` barrel export if using directory structure
+   - [ ] Add CSS file if needed (e.g., `ComponentName.css`)
    - [ ] Define prop interface
    - [ ] Import FC: `import type { FC } from 'react'`
    - [ ] Implement component with FC

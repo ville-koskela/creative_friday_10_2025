@@ -41,12 +41,18 @@ export const ComponentName: FC<ComponentNameProps> = ({
 
 ### File Location & Naming Conventions
 
-- **Component files**: `src/components/ComponentName.tsx`
-- **Test files**: `src/tests/ComponentName.test.tsx`
+- **Component files**: 
+  - Simple: `src/components/ComponentName.tsx`
+  - Complex: `src/components/ComponentName/ComponentName.tsx` with `index.ts` barrel export
+- **Component styles**: `src/components/ComponentName/ComponentName.css` (when using directories)
+- **Test files**: `tests/components/ComponentName/ComponentName.test.tsx`
+- **Test utilities**: `tests/test-utils/` (e.g., `create-dom.ts`, `css-loader.js`)
 - **Type definitions**: `src/types/` (for complex shared types)
 - **Utilities**: `src/utils/` (for helper functions)
+- **Contexts**: `src/contexts/` (for React contexts, e.g., WindowContext)
 - **Naming**: Use PascalCase for component files and names
 - **Exports**: Always use named exports, never default exports
+- **Barrel exports**: Use `index.ts` for re-exporting from component directories
 
 ---
 
@@ -107,8 +113,8 @@ export const Greeting: FC<GreetingProps> = ({ name }) => {
 import { strict as assert } from 'node:assert';
 import { beforeEach, describe, test } from 'node:test';
 import { render } from '@testing-library/react';
-import { createDOM } from './test-utils/create-dom';
-import { ComponentName } from '../components/ComponentName';
+import { createDOM } from '../test-utils/create-dom';
+import { ComponentName } from '../../src/components/ComponentName';
 
 describe('ComponentName', () => {
   // Always set up DOM environment before tests
@@ -421,7 +427,9 @@ git commit -m "fix: resolve UserCard rendering issue"
 When creating a new component, follow this checklist:
 
 1. **Create component file**
-   - [ ] Place in `src/components/ComponentName.tsx`
+   - [ ] Place in `src/components/ComponentName.tsx` or `src/components/ComponentName/ComponentName.tsx`
+   - [ ] Create `index.ts` barrel export if using directory structure
+   - [ ] Add CSS file if needed (e.g., `ComponentName.css`)
    - [ ] Define prop interface
    - [ ] Import FC: `import type { FC } from 'react'`
    - [ ] Implement component with FC
@@ -434,8 +442,10 @@ When creating a new component, follow this checklist:
    - [ ] Import FC from 'react' with type import
 
 3. **Create test file**
-   - [ ] Place in `src/tests/ComponentName.test.tsx`
+   - [ ] Place in `tests/components/ComponentName/ComponentName.test.tsx`
    - [ ] Add `beforeEach(() => createDOM())`
+   - [ ] Import from `../test-utils/create-dom`
+   - [ ] Import component from `../../src/components/ComponentName`
    - [ ] Test default behavior
    - [ ] Test with custom props
    - [ ] Use strict assertions
@@ -483,14 +493,14 @@ export const Button: FC<ButtonProps> = ({
 };
 ```
 
-### 2. Create Test (`src/tests/Button.test.tsx`)
+### 2. Create Test (`tests/components/Button/Button.test.tsx`)
 
 ```tsx
 import { strict as assert } from 'node:assert';
 import { beforeEach, describe, test } from 'node:test';
 import { render } from '@testing-library/react';
-import { createDOM } from './test-utils/create-dom';
-import { Button } from '../components/Button';
+import { createDOM } from '../../test-utils/create-dom';
+import { Button } from '../../../src/components/Button';
 
 describe('Button', () => {
   beforeEach(() => {

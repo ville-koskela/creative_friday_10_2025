@@ -20,8 +20,8 @@ This guide provides the essential patterns and standards for testing React compo
 import { strict as assert } from 'node:assert';
 import { beforeEach, describe, test } from 'node:test';
 import { render } from '@testing-library/react';
-import { createDOM } from './test-utils/create-dom';
-import { ComponentName } from '../components/ComponentName';
+import { createDOM } from '../test-utils/create-dom';
+import { ComponentName } from '../../src/components/ComponentName';
 
 describe('ComponentName', () => {
   // Always set up DOM environment before tests
@@ -56,10 +56,11 @@ describe('ComponentName', () => {
 
 ### File Location & Naming Conventions
 
-- **Test files**: `src/tests/ComponentName.test.tsx`
-- **Test utilities**: `src/tests/test-utils/`
+- **Test files**: `tests/components/ComponentName/ComponentName.test.tsx`
+- **Test utilities**: `tests/test-utils/` (e.g., `create-dom.ts`, `css-loader.js`)
 - **Naming**: Match the component name with `.test.tsx` suffix
 - **Imports**: Always use named imports for components
+- **Test structure**: Mirror component directory structure in `tests/components/`
 
 ---
 
@@ -101,7 +102,7 @@ const assert = require('assert');
 
 ```tsx
 // ✅ Good - use render's return values with named import
-import { Component } from '../components/Component';
+import { Component } from '../../src/components/Component';
 const { getByText, container, getByRole } = render(<Component />);
 
 // ❌ Avoid - don't use screen
@@ -113,10 +114,10 @@ screen.getByText('...');
 
 ```tsx
 // ✅ Good - named import
-import { Button } from '../components/Button';
+import { Button } from '../../src/components/Button';
 
 // ❌ Avoid - default import
-import Button from '../components/Button';
+import Button from '../../src/components/Button';
 ```
 
 ---
@@ -408,7 +409,7 @@ npm run test
 ### Run Specific Test File
 
 ```bash
-npm run test -- src/tests/Button.test.tsx
+npm run test -- tests/components/Button/Button.test.tsx
 ```
 
 ### Run Tests in Watch Mode
@@ -453,14 +454,14 @@ export const Button: FC<ButtonProps> = ({
 };
 ```
 
-### Test File (`src/tests/Button.test.tsx`)
+### Test File (`tests/components/Button/Button.test.tsx`)
 
 ```tsx
 import { strict as assert } from 'node:assert';
 import { beforeEach, describe, test } from 'node:test';
 import { render } from '@testing-library/react';
-import { createDOM } from './test-utils/create-dom';
-import { Button } from '../components/Button';
+import { createDOM } from '../../test-utils/create-dom';
+import { Button } from '../../../src/components/Button';
 
 describe('Button', () => {
   beforeEach(() => {
@@ -547,9 +548,9 @@ git commit -m "fix(test): resolve Button test assertion issue"
 When creating tests for a component, follow this checklist:
 
 1. **Create test file**
-   - [ ] Place in `src/tests/ComponentName.test.tsx`
+   - [ ] Place in `tests/components/ComponentName/ComponentName.test.tsx`
    - [ ] Import required dependencies (assert, test utilities)
-   - [ ] Import component using named import
+   - [ ] Import component using named import from `../../src/components/ComponentName`
    - [ ] Add `beforeEach(() => createDOM())`
 
 2. **Write test cases**
